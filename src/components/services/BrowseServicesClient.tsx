@@ -69,24 +69,24 @@ export function BrowseServicesClient() {
   }
 
   return (
-    <div className="portal-grain min-h-screen">
-      <section className="border-b border-white/12 bg-[#0E141C]">
+    <div className="terrace-ground min-h-screen">
+      <section className="border-b border-[#D5C9B4] bg-[#EBE4D6]">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <h1 className="font-display text-4xl font-extrabold tracking-tight text-[#F4F6F8] sm:text-6xl">
+          <h1 className="font-display text-4xl font-semibold tracking-tight text-[#1E3A2F] sm:text-5xl">
             Browse Salon Services
           </h1>
-          <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#B4C2CF]">
-            Search treatments by name, filter across all seven salon disciplines, and sort by price. Every listed service is active and available for online booking.
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#495A52]">
+            Search treatments by name, filter across seven salon disciplines, and sort by price. Every listed treatment is active and open for booking.
           </p>
 
-          {/* Search, Category Filter & Price Sort Bar */}
+          {/* Search, Category & Price Sort Controls */}
           <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-12">
             <div className="relative md:col-span-5">
               <label htmlFor="browse-search" className="sr-only">
                 Search services by name
               </label>
               <Search
-                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8DB4D4]"
+                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B5893D]"
                 aria-hidden="true"
               />
               <input
@@ -95,7 +95,7 @@ export function BrowseServicesClient() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by service name..."
-                className="w-full border border-white/18 bg-[#0B0F14] py-3.5 pl-11 pr-4 text-sm text-[#F4F6F8] placeholder:text-[#7F92A4] focus:border-[#E08A5E] focus:outline-none"
+                className="w-full border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-4 text-sm text-[#16261F] placeholder:text-[#6D7B74] focus:border-[#1E3A2F] focus:outline-none"
               />
             </div>
 
@@ -104,14 +104,14 @@ export function BrowseServicesClient() {
                 Filter by category
               </label>
               <SlidersHorizontal
-                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8DB4D4]"
+                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B5893D]"
                 aria-hidden="true"
               />
               <select
                 id="browse-category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full cursor-pointer appearance-none border border-white/18 bg-[#0B0F14] py-3.5 pl-11 pr-8 text-sm text-[#F4F6F8] focus:border-[#E08A5E] focus:outline-none"
+                className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-8 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
               >
                 <option value="all">All Categories</option>
                 {SERVICE_CATEGORIES.map((cat) => (
@@ -127,14 +127,14 @@ export function BrowseServicesClient() {
                 Sort services by price
               </label>
               <ArrowDownUp
-                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#E08A5E]"
+                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1E3A2F]"
                 aria-hidden="true"
               />
               <select
                 id="browse-sort"
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="w-full cursor-pointer appearance-none border border-white/18 bg-[#0B0F14] py-3.5 pl-11 pr-8 text-sm text-[#F4F6F8] focus:border-[#E08A5E] focus:outline-none"
+                className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-8 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
               >
                 <option value="newest">Sort: Featured</option>
                 <option value="price_asc">Price: Low to High</option>
@@ -143,15 +143,15 @@ export function BrowseServicesClient() {
             </div>
           </div>
 
-          {/* Quick Category Pills */}
+          {/* Quick Category Rail */}
           <div className="mt-5 flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => setCategory('all')}
-              className={`cursor-pointer border px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.1em] transition-colors ${
+              className={`cursor-pointer border px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.12em] transition-colors ${
                 category === 'all'
-                  ? 'border-[#E08A5E] bg-[#E08A5E] font-semibold text-[#0B0F14]'
-                  : 'border-white/14 bg-[#0B0F14]/60 text-[#B4C2CF] hover:border-white/35 hover:text-[#F4F6F8]'
+                  ? 'border-[#B5893D] bg-[#1E3A2F] font-semibold text-[#FBF9F5]'
+                  : 'border-[#C9BFA9] bg-[#FBF9F5] text-[#495A52] hover:border-[#1E3A2F] hover:text-[#1E3A2F]'
               }`}
             >
               All
@@ -161,10 +161,10 @@ export function BrowseServicesClient() {
                 key={cat}
                 type="button"
                 onClick={() => setCategory(cat)}
-                className={`cursor-pointer border px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.1em] transition-colors ${
+                className={`cursor-pointer border px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.12em] transition-colors ${
                   category === cat
-                    ? 'border-[#E08A5E] bg-[#E08A5E] font-semibold text-[#0B0F14]'
-                    : 'border-white/14 bg-[#0B0F14]/60 text-[#B4C2CF] hover:border-white/35 hover:text-[#F4F6F8]'
+                    ? 'border-[#B5893D] bg-[#1E3A2F] font-semibold text-[#FBF9F5]'
+                    : 'border-[#C9BFA9] bg-[#FBF9F5] text-[#495A52] hover:border-[#1E3A2F] hover:text-[#1E3A2F]'
                 }`}
               >
                 {cat}
@@ -176,14 +176,16 @@ export function BrowseServicesClient() {
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-center justify-between">
-          <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#B4C2CF]">
-            {loading ? 'Loading treatments...' : `${services.length} Active ${services.length === 1 ? 'Service' : 'Services'}`}
+          <p className="font-mono text-xs uppercase tracking-[0.14em] text-[#495A52]">
+            {loading
+              ? 'Loading treatments...'
+              : `${services.length} Active ${services.length === 1 ? 'Service' : 'Services'}`}
           </p>
           {(search || category !== 'all' || sort !== 'newest') && (
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex cursor-pointer items-center gap-1.5 font-mono text-xs uppercase tracking-[0.12em] text-[#E08A5E] hover:underline"
+              className="inline-flex cursor-pointer items-center gap-1.5 font-mono text-xs uppercase tracking-[0.12em] text-[#1E3A2F] hover:text-[#B5893D]"
             >
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
               Reset Filters
@@ -194,32 +196,34 @@ export function BrowseServicesClient() {
         {loading ? (
           <ServiceGridSkeleton count={6} />
         ) : error ? (
-          <div className="atelier-surface p-10 text-center">
-            <p className="text-sm text-rose-300">{error}</p>
+          <div className="maison-card p-10 text-center">
+            <p className="text-sm font-medium text-rose-800">{error}</p>
             <button
               type="button"
               onClick={fetchServices}
-              className="mt-4 cursor-pointer bg-[#E08A5E] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-[#0B0F14]"
+              className="btn-emerald mt-4 cursor-pointer px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em]"
             >
               Retry
             </button>
           </div>
         ) : services.length === 0 ? (
-          <div className="atelier-surface p-12 text-center">
-            <h2 className="font-display text-2xl font-bold text-[#F4F6F8]">No matching salon services</h2>
-            <p className="mt-2 text-sm text-[#B4C2CF]">
-              Try adjusting your search query or selecting a different salon category.
+          <div className="maison-card p-12 text-center">
+            <h2 className="font-display text-2xl font-semibold text-[#1E3A2F]">
+              No matching salon services
+            </h2>
+            <p className="mt-2 text-sm text-[#495A52]">
+              Try adjusting your search query or choosing another category.
             </p>
             <button
               type="button"
               onClick={resetFilters}
-              className="mt-6 cursor-pointer border border-[#E08A5E] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-[#E08A5E] transition-colors hover:bg-[#E08A5E] hover:text-[#0B0F14]"
+              className="btn-limestone mt-6 cursor-pointer px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em]"
             >
               Show All Active Services
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}

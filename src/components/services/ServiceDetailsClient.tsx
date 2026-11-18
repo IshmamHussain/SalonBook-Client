@@ -45,7 +45,6 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Redirect unauthenticated users to Sign In (protected route)
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
@@ -141,7 +140,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
           message: message.trim(),
         }),
       });
-      toast.success(res.message || 'Appointment request submitted!');
+      toast.success(res.message || 'Appointment request submitted! Awaiting salon confirmation.');
       router.push('/dashboard/customer/appointments');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Could not create appointment request.');
@@ -160,20 +159,20 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
 
   if (error || !service) {
     return (
-      <section className="mx-auto max-w-2xl px-4 py-20 text-center">
-        <div className="atelier-surface p-10">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center border border-rose-400/40 bg-rose-500/12 text-rose-300">
+      <section className="terrace-ground mx-auto max-w-2xl px-4 py-20 text-center">
+        <div className="maison-card p-10">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center border border-rose-800/35 bg-rose-100 text-rose-900">
             <AlertCircle className="h-6 w-6" aria-hidden="true" />
           </div>
-          <h1 className="mt-5 font-display text-3xl font-extrabold text-[#F4F6F8]">
-            Service unavailable
+          <h1 className="mt-5 font-display text-3xl font-semibold text-[#1E3A2F]">
+            Service Unavailable
           </h1>
-          <p className="mt-3 text-sm leading-relaxed text-[#B4C2CF]">
+          <p className="mt-3 text-sm leading-relaxed text-[#495A52]">
             {error || 'The requested salon service ID is invalid or no longer active.'}
           </p>
           <Link
             href="/services"
-            className="mt-7 inline-flex items-center gap-2 bg-[#E08A5E] px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076]"
+            className="btn-emerald mt-7 inline-flex items-center gap-2 px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to Browse Services
@@ -187,46 +186,46 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
   const isActiveService = service.status === 'active';
 
   return (
-    <div className="portal-grain min-h-screen">
+    <div className="terrace-ground min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <Link
           href="/services"
-          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-[#B4C2CF] transition-colors hover:text-[#E08A5E]"
+          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-[#495A52] transition-colors hover:text-[#1E3A2F]"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Back to Browse Services
         </Link>
 
         <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12">
-          {/* Visual Service Plate */}
+          {/* Framed Visual Plate */}
           <div className="lg:col-span-6">
-            <div className="atelier-surface overflow-hidden">
-              <div className="relative aspect-[4/3] w-full bg-[#0E141C]">
+            <div className="maison-card overflow-hidden p-3">
+              <div className="relative aspect-[4/3] w-full overflow-hidden border border-[#E2D9C8] bg-[#EAE2D3]">
                 <img
                   src={service.image}
                   alt={service.serviceName}
                   className="h-full w-full object-cover"
                 />
-                <span className="absolute left-4 top-4 border border-white/20 bg-[#0B0F14]/82 px-3 py-1 font-mono text-xs uppercase tracking-[0.12em] text-[#F4F6F8] backdrop-blur-sm">
+                <span className="absolute left-4 top-4 border border-[#B5893D]/60 bg-[#FBF9F5]/92 px-3 py-1 font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#1E3A2F]">
                   {service.category}
                 </span>
               </div>
-              <div className="grid grid-cols-3 divide-x divide-white/10 border-t border-white/12 bg-[#121922]">
+              <div className="mt-3 grid grid-cols-3 divide-x divide-[#E2D9C8] border border-[#E2D9C8] bg-[#F4EFE6]">
                 <div className="p-4">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#7F92A4]">Price</p>
-                  <p className="mt-1 font-mono text-2xl font-medium tabular-nums text-[#E08A5E]">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#6D7B74]">Price</p>
+                  <p className="mt-1 font-mono text-2xl font-semibold tabular-nums text-[#1E3A2F]">
                     ${Number(service.price).toFixed(2)}
                   </p>
                 </div>
                 <div className="p-4">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#7F92A4]">Duration</p>
-                  <p className="mt-1 inline-flex items-center gap-1.5 font-mono text-xl tabular-nums text-[#F4F6F8]">
-                    <Clock className="h-4 w-4 text-[#8DB4D4]" aria-hidden="true" />
+                  <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#6D7B74]">Duration</p>
+                  <p className="mt-1 inline-flex items-center gap-1.5 font-mono text-xl tabular-nums text-[#16261F]">
+                    <Clock className="h-4 w-4 text-[#B5893D]" aria-hidden="true" />
                     {service.duration}m
                   </p>
                 </div>
                 <div className="p-4">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#7F92A4]">Status</p>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#6D7B74]">Status</p>
                   <div className="mt-1.5">
                     <StatusBadge variant={service.status} />
                   </div>
@@ -235,64 +234,63 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
             </div>
           </div>
 
-          {/* Details & Appointment Booking Option */}
+          {/* Service Info & Booking Form */}
           <div className="flex flex-col justify-between lg:col-span-6">
             <div>
-              <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-[#F4F6F8] sm:text-5xl">
+              <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-[#1E3A2F] sm:text-5xl">
                 {service.serviceName}
               </h1>
 
-              <p className="mt-5 text-base leading-relaxed text-[#D0DCE7]">{service.description}</p>
+              <p className="mt-5 text-base leading-relaxed text-[#495A52]">{service.description}</p>
 
-              <div className="mt-6 grid grid-cols-1 gap-3 border-y border-white/12 py-5 sm:grid-cols-2">
-                <div className="flex items-center gap-2.5 text-sm text-[#B4C2CF]">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-300" aria-hidden="true" />
+              <div className="mt-6 grid grid-cols-1 gap-3 border-y border-[#D5C9B4] py-5 sm:grid-cols-2">
+                <div className="flex items-center gap-2.5 text-sm text-[#16261F]">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-[#1E3A2F]" aria-hidden="true" />
                   <span>No upfront charge before confirmation</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-sm text-[#B4C2CF]">
-                  <Sparkles className="h-4 w-4 shrink-0 text-[#E08A5E]" aria-hidden="true" />
+                <div className="flex items-center gap-2.5 text-sm text-[#16261F]">
+                  <Sparkles className="h-4 w-4 shrink-0 text-[#B5893D]" aria-hidden="true" />
                   <span>Stripe Checkout unlocks once confirmed</span>
                 </div>
               </div>
 
-              {/* Booking Action / Role Rules */}
               <div className="mt-8">
                 {isAdmin ? (
-                  <div className="flex items-start gap-3 border border-amber-400/35 bg-amber-400/10 p-5 text-sm text-amber-100">
-                    <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" aria-hidden="true" />
+                  <div className="flex items-start gap-3 border border-amber-700/35 bg-amber-50 p-5 text-sm text-amber-950">
+                    <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-amber-800" aria-hidden="true" />
                     <div>
                       <p className="font-semibold">Administrator Account Active</p>
-                      <p className="mt-1 text-amber-100/80">
+                      <p className="mt-1 text-amber-900">
                         Admins manage salon services and review bookings from the Admin Dashboard and cannot submit customer appointment requests.
                       </p>
                       <Link
                         href="/dashboard/admin/services"
-                        className="mt-3 inline-block font-mono text-xs uppercase tracking-[0.12em] text-[#E08A5E] hover:underline"
+                        className="mt-3 inline-block font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#1E3A2F] underline"
                       >
                         Manage Services in Admin Dashboard &rarr;
                       </Link>
                     </div>
                   </div>
                 ) : !isActiveService ? (
-                  <div className="border border-rose-400/35 bg-rose-500/10 p-5 text-sm text-rose-200">
+                  <div className="border border-rose-800/35 bg-rose-50 p-5 text-sm text-rose-900">
                     This service is currently inactive and unavailable for appointment booking.
                   </div>
                 ) : !showBookingForm ? (
                   <button
                     type="button"
                     onClick={() => setShowBookingForm(true)}
-                    className="inline-flex w-full cursor-pointer items-center justify-center gap-2.5 bg-[#E08A5E] px-7 py-4 text-sm font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076] sm:w-auto"
+                    className="btn-emerald inline-flex w-full cursor-pointer items-center justify-center gap-2.5 px-7 py-4 text-xs font-semibold uppercase tracking-[0.16em] sm:w-auto"
                   >
                     <Calendar className="h-4 w-4" aria-hidden="true" />
-                    Book This Appointment
+                    Request Appointment
                   </button>
                 ) : (
-                  <form onSubmit={handleSubmitAppointment} className="atelier-surface space-y-6 p-6">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                      <h2 className="font-display text-xl font-bold text-[#F4F6F8]">
+                  <form onSubmit={handleSubmitAppointment} className="maison-card space-y-6 p-6">
+                    <div className="flex items-center justify-between border-b border-[#E2D9C8] pb-4">
+                      <h2 className="font-display text-xl font-semibold text-[#1E3A2F]">
                         Request Appointment Slot
                       </h2>
-                      <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#E08A5E]">
+                      <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#B5893D]">
                         Pending Approval
                       </span>
                     </div>
@@ -300,7 +298,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                     <div>
                       <label
                         htmlFor="appointment-date"
-                        className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]"
+                        className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]"
                       >
                         Appointment Date
                       </label>
@@ -311,17 +309,17 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                         min={getTodayDateString()}
                         value={appointmentDate}
                         onChange={(e) => setAppointmentDate(e.target.value)}
-                        className="mt-2 w-full border border-white/18 bg-[#0B0F14] px-4 py-3 text-sm text-[#F4F6F8] focus:border-[#E08A5E] focus:outline-none"
+                        className="mt-2 w-full border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
                       />
                     </div>
 
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+                        <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
                           Available Time Slot
                         </span>
                         {loadingSlots && (
-                          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#8DB4D4]">
+                          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#1E3A2F]">
                             <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
                             Checking slots...
                           </span>
@@ -341,10 +339,10 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                               aria-pressed={isSelected}
                               className={`border px-3 py-2.5 font-mono text-xs tabular-nums transition-colors ${
                                 isTaken
-                                  ? 'cursor-not-allowed border-white/8 bg-white/4 text-[#637485] line-through'
+                                  ? 'cursor-not-allowed border-[#DCD3C2] bg-[#EAE2D3] text-[#8B948E] line-through'
                                   : isSelected
-                                  ? 'cursor-pointer border-[#E08A5E] bg-[#E08A5E] font-semibold text-[#0B0F14]'
-                                  : 'cursor-pointer border-white/16 bg-[#0B0F14] text-[#F4F6F8] hover:border-[#E08A5E]'
+                                  ? 'cursor-pointer border-[#B5893D] bg-[#1E3A2F] font-semibold text-[#FBF9F5]'
+                                  : 'cursor-pointer border-[#C9BFA9] bg-[#FFFFFF] text-[#16261F] hover:border-[#1E3A2F]'
                               }`}
                             >
                               {slot}
@@ -352,15 +350,15 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                           );
                         })}
                       </div>
-                      <p className="mt-2 text-xs text-[#7F92A4]">
-                        Crossed-out slots are already reserved for this date.
+                      <p className="mt-2 text-xs text-[#6D7B74]">
+                        Crossed-out time slots are already reserved for this date.
                       </p>
                     </div>
 
                     <div>
                       <label
                         htmlFor="appointment-message"
-                        className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]"
+                        className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]"
                       >
                         Additional Message (Optional)
                       </label>
@@ -371,7 +369,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Share hair history, allergies, styling references, or arrival preferences..."
-                        className="mt-2 w-full border border-white/18 bg-[#0B0F14] px-4 py-3 text-sm text-[#F4F6F8] placeholder:text-[#7F92A4] focus:border-[#E08A5E] focus:outline-none"
+                        className="mt-2 w-full border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 text-sm text-[#16261F] placeholder:text-[#6D7B74] focus:border-[#1E3A2F] focus:outline-none"
                       />
                     </div>
 
@@ -379,7 +377,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                       <button
                         type="submit"
                         disabled={submitting || !timeSlot}
-                        className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 bg-[#E08A5E] px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="btn-emerald inline-flex flex-1 cursor-pointer items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {submitting ? (
                           <>
@@ -394,7 +392,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                         type="button"
                         disabled={submitting}
                         onClick={() => setShowBookingForm(false)}
-                        className="cursor-pointer border border-white/18 px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#B4C2CF] hover:border-white/35 hover:text-[#F4F6F8]"
+                        className="btn-limestone cursor-pointer px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.12em]"
                       >
                         Cancel
                       </button>
