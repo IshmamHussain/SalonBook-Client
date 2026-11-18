@@ -14,15 +14,15 @@ type BadgeVariant =
   | 'blocked';
 
 const STYLES: Record<BadgeVariant, string> = {
-  pending: 'border-amber-400/40 bg-amber-400/12 text-amber-200',
-  confirmed: 'border-emerald-400/40 bg-emerald-400/12 text-emerald-200',
-  cancelled: 'border-rose-400/40 bg-rose-400/12 text-rose-200',
-  paid: 'border-teal-300/45 bg-teal-400/15 text-teal-200',
-  unpaid: 'border-slate-400/35 bg-slate-400/10 text-[#B4C2CF]',
-  failed: 'border-rose-400/40 bg-rose-400/12 text-rose-200',
-  active: 'border-emerald-400/40 bg-emerald-400/12 text-emerald-200',
-  inactive: 'border-slate-400/35 bg-slate-400/10 text-[#B4C2CF]',
-  blocked: 'border-rose-400/45 bg-rose-500/15 text-rose-200',
+  pending: 'border-amber-700/35 bg-amber-100/80 text-amber-900',
+  confirmed: 'border-emerald-800/35 bg-emerald-100/80 text-emerald-950',
+  cancelled: 'border-rose-800/35 bg-rose-100/80 text-rose-900',
+  paid: 'border-teal-800/35 bg-teal-100/85 text-teal-950',
+  unpaid: 'border-[#B5A992] bg-[#EAE2D3] text-[#3F4E46]',
+  failed: 'border-rose-800/35 bg-rose-100/80 text-rose-900',
+  active: 'border-emerald-800/35 bg-emerald-100/80 text-emerald-950',
+  inactive: 'border-[#B5A992] bg-[#EAE2D3] text-[#3F4E46]',
+  blocked: 'border-rose-800/45 bg-rose-100 text-rose-900',
 };
 
 const LABELS: Record<BadgeVariant, string> = {

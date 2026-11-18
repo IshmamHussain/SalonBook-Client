@@ -1,22 +1,22 @@
 import type { Metadata } from 'next';
-import { Bricolage_Grotesque, JetBrains_Mono, Manrope } from 'next/font/google';
+import { Cinzel, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google';
 import React from 'react';
 import { Toaster } from 'sonner';
 import { SiteShell } from '@/components/layout/SiteShell';
 import { AuthProvider } from '@/context/AuthContext';
 import './globals.css';
 
-const bricolage = Bricolage_Grotesque({
+const cinzel = Cinzel({
   subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
-  variable: '--font-bricolage',
+  weight: ['500', '600', '700'],
+  variable: '--font-cinzel',
   display: 'swap',
 });
 
-const manrope = Manrope({
+const hanken = Hanken_Grotesk({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-manrope',
+  variable: '--font-hanken',
   display: 'swap',
 });
 
@@ -28,25 +28,25 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'SalonBook — Salon Appointment Booking Platform',
+  title: 'SalonBook — Maison Salon Appointment Booking',
   description:
-    'Explore curated hair, skincare, and spa services, request conflict-free appointments online, and pay securely through Stripe once confirmed.',
+    'Explore curated hair, skincare, and restorative spa services, request conflict-free appointments online, and pay securely through Stripe once confirmed.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-[#0B0F14] font-sans text-[#F4F6F8] antialiased">
+    <html lang="en" className={`${cinzel.variable} ${hanken.variable} ${jetbrainsMono.variable}`}>
+      <body className="min-h-screen bg-[#F4EFE6] font-sans text-[#16261F] antialiased">
         <AuthProvider>
           <SiteShell>{children}</SiteShell>
           <Toaster
             position="top-right"
-            theme="dark"
+            theme="light"
             toastOptions={{
               style: {
-                background: '#121922',
-                border: '1px solid rgba(244,246,248,0.18)',
-                color: '#F4F6F8',
+                background: '#FBF9F5',
+                border: '1px solid #B5893D',
+                color: '#16261F',
               },
             }}
           />

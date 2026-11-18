@@ -1,46 +1,43 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-void: #0B0F14;
-  --color-ink: #121922;
-  --color-panel: #18222E;
-  --color-panel-hover: #1E2B3A;
-  --color-mist: #8DB4D4;
-  --color-slate-sheen: #2A4359;
-  --color-copper: #E08A5E;
-  --color-copper-bright: #F0A076;
-  --color-foreground: #F4F6F8;
-  --color-muted: #B4C2CF;
-  --color-subtle: #7F92A4;
-  --color-line: rgba(244, 246, 248, 0.13);
-  --color-line-strong: rgba(244, 246, 248, 0.24);
+  --color-limestone: #F4EFE6;
+  --color-limestone-deep: #EAE2D3;
+  --color-fountain: #FBF9F5;
+  --color-hedge: #1E3A2F;
+  --color-hedge-deep: #142820;
+  --color-gilt: #B5893D;
+  --color-gilt-soft: #D6BC88;
+  --color-ink: #16261F;
+  --color-muted: #495A52;
+  --color-subtle: #6D7B74;
 
-  --font-display: var(--font-bricolage), system-ui, sans-serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--font-cinzel), Georgia, serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 :root {
-  color-scheme: dark;
-  --bg-void: #0B0F14;
-  --bg-ink: #121922;
-  --bg-panel: #18222E;
-  --fg-primary: #F4F6F8;
-  --fg-secondary: #B4C2CF;
-  --accent-copper: #E08A5E;
-  --accent-mist: #8DB4D4;
-  --border-hairline: rgba(244, 246, 248, 0.13);
+  color-scheme: light;
+  --bg-limestone: #F4EFE6;
+  --bg-fountain: #FBF9F5;
+  --bg-hedge: #1E3A2F;
+  --fg-ink: #16261F;
+  --fg-muted: #495A52;
+  --accent-gilt: #B5893D;
+  --border-gilt: rgba(181, 137, 61, 0.42);
+  --border-stone: #D8CEBC;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg-void);
-  color: var(--fg-primary);
+  background-color: var(--bg-limestone);
+  color: var(--fg-ink);
 }
 
 body {
-  background-color: var(--bg-void);
-  color: var(--fg-primary);
+  background-color: var(--bg-limestone);
+  color: var(--fg-ink);
   font-family: var(--font-sans);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -49,14 +46,14 @@ body {
 
 /* Browser surface theming */
 ::selection {
-  background-color: rgba(224, 138, 94, 0.34);
-  color: #F4F6F8;
+  background-color: rgba(30, 58, 47, 0.18);
+  color: #16261F;
 }
 
 input,
 textarea,
 select {
-  caret-color: #E08A5E;
+  caret-color: #1E3A2F;
 }
 
 a {
@@ -64,53 +61,94 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid #E08A5E;
+  outline: 2px solid #B5893D;
   outline-offset: 2px;
 }
 
-/* Custom studio scrollbar */
+/* Custom limestone & gilt scrollbar */
 ::-webkit-scrollbar {
   width: 9px;
   height: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0F14;
+  background: #F4EFE6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #233242;
+  background: #C7BA9E;
   border-radius: 999px;
-  border: 2px solid #0B0F14;
+  border: 2px solid #F4EFE6;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #E08A5E;
+  background: #1E3A2F;
 }
 
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Fine optical film grain texture overlay */
-.portal-grain {
-  background-image: radial-gradient(rgba(244, 246, 248, 0.05) 1px, transparent 0);
-  background-size: 24px 24px;
+/* Subtle raked limestone texture */
+.terrace-ground {
+  background-color: #F4EFE6;
+  background-image: radial-gradient(rgba(30, 58, 47, 0.035) 1px, transparent 0);
+  background-size: 28px 28px;
 }
 
-/* Subtle sheen panel surface */
-.atelier-surface {
-  background: linear-gradient(180deg, rgba(24, 34, 46, 0.72) 0%, rgba(18, 25, 34, 0.92) 100%);
-  border: 1px solid rgba(244, 246, 248, 0.13);
+/* Versailles double-framed limestone & fountain-white panel */
+.maison-card {
+  background-color: #FBF9F5;
+  border: 1px solid #D5C9B4;
+  box-shadow:
+    inset 0 0 0 4px #FBF9F5,
+    inset 0 0 0 5px rgba(181, 137, 61, 0.28);
 }
 
-.atelier-surface-hover {
-  transition: border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+.maison-card-hover {
+  transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
 
-.atelier-surface-hover:hover {
-  border-color: rgba(224, 138, 94, 0.58);
-  box-shadow: 0 20px 44px -24px rgba(0, 0, 0, 0.75);
+.maison-card-hover:hover {
+  border-color: #B5893D;
+  box-shadow:
+    inset 0 0 0 4px #FBF9F5,
+    inset 0 0 0 5px rgba(181, 137, 61, 0.62),
+    0 20px 38px -22px rgba(22, 38, 31, 0.24);
+}
+
+/* Engraved primary emerald button with gilt inset */
+.btn-emerald {
+  background-color: #1E3A2F;
+  color: #FBF9F5;
+  border: 1px solid #B5893D;
+  box-shadow: inset 0 0 0 2px #1E3A2F, inset 0 0 0 3px rgba(181, 137, 61, 0.45);
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.btn-emerald:hover:not(:disabled) {
+  background-color: #142820;
+  border-color: #D6BC88;
+}
+
+/* Secondary limestone button with bronze hairline */
+.btn-limestone {
+  background-color: #FBF9F5;
+  color: #1E3A2F;
+  border: 1px solid #B5893D;
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.btn-limestone:hover:not(:disabled) {
+  background-color: #EAE2D3;
+  border-color: #1E3A2F;
+}
+
+/* Hairline gilt divider with centered diamond */
+.axial-rule {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(181, 137, 61, 0.65), transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
