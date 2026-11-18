@@ -87,28 +87,37 @@ export function SignInClient() {
   }
 
   return (
-    <div className="portal-grain flex min-h-[calc(100vh-4.5rem)] items-center justify-center px-4 py-14">
-      <div className="atelier-surface w-full max-w-md p-8 sm:p-10">
-        <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#F4F6F8]">
-          Sign in to SalonBook
+    <div className="terrace-ground flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 py-14">
+      <div className="maison-card w-full max-w-md p-8 sm:p-10">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
+          Sign In to SalonBook
         </h1>
-        <p className="mt-2 text-sm text-[#B4C2CF]">
-          Access your appointments, service details, or studio administration dashboard.
+        <p className="mt-2 text-sm text-[#495A52]">
+          Access your appointments, protected service details, or salon administration console.
         </p>
 
         {blockedMessage && (
-          <div className="mt-5 border border-rose-400/40 bg-rose-500/12 p-4 text-sm text-rose-200" role="alert">
+          <div
+            className="mt-5 border border-rose-800/35 bg-rose-50 p-4 text-sm text-rose-900"
+            role="alert"
+          >
             {blockedMessage}
           </div>
         )}
 
         <form onSubmit={handleSignIn} className="mt-7 space-y-5">
           <div>
-            <label htmlFor="signin-email" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label
+              htmlFor="signin-email"
+              className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]"
+            >
               Email Address
             </label>
             <div className="relative mt-2">
-              <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7F92A4]" aria-hidden="true" />
+              <Mail
+                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B5893D]"
+                aria-hidden="true"
+              />
               <input
                 id="signin-email"
                 type="email"
@@ -117,17 +126,23 @@ export function SignInClient() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full border border-white/18 bg-[#0B0F14] py-3 pl-10 pr-4 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+                className="w-full border border-[#C9BFA9] bg-[#FFFFFF] py-3 pl-10 pr-4 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="signin-password" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label
+              htmlFor="signin-password"
+              className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]"
+            >
               Password
             </label>
             <div className="relative mt-2">
-              <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7F92A4]" aria-hidden="true" />
+              <Lock
+                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B5893D]"
+                aria-hidden="true"
+              />
               <input
                 id="signin-password"
                 type={showPassword ? 'text' : 'password'}
@@ -136,13 +151,13 @@ export function SignInClient() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
-                className="w-full border border-white/18 bg-[#0B0F14] py-3 pl-10 pr-11 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+                className="w-full border border-[#C9BFA9] bg-[#FFFFFF] py-3 pl-10 pr-11 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer p-1 text-[#7F92A4] hover:text-[#F4F6F8]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer p-1 text-[#6D7B74] hover:text-[#1E3A2F]"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -152,7 +167,7 @@ export function SignInClient() {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex w-full cursor-pointer items-center justify-center gap-2 bg-[#E08A5E] px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076] disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-emerald inline-flex w-full cursor-pointer items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? (
               <>
@@ -169,16 +184,16 @@ export function SignInClient() {
         </form>
 
         <div className="my-6 flex items-center gap-3">
-          <div className="h-px flex-1 bg-white/12" />
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#7F92A4]">or</span>
-          <div className="h-px flex-1 bg-white/12" />
+          <div className="h-px flex-1 bg-[#D5C9B4]" />
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6D7B74]">or</span>
+          <div className="h-px flex-1 bg-[#D5C9B4]" />
         </div>
 
         <button
           type="button"
           onClick={handleGoogleLogin}
           disabled={googleLoading}
-          className="inline-flex w-full cursor-pointer items-center justify-center gap-3 border border-white/18 bg-[#0B0F14] px-5 py-3 text-sm font-semibold text-[#F4F6F8] transition-colors hover:border-[#E08A5E] disabled:opacity-60"
+          className="btn-limestone inline-flex w-full cursor-pointer items-center justify-center gap-3 px-5 py-3 text-sm font-semibold disabled:opacity-60"
         >
           {googleLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -190,9 +205,9 @@ export function SignInClient() {
           Continue with Google
         </button>
 
-        <p className="mt-7 text-center text-sm text-[#B4C2CF]">
+        <p className="mt-7 text-center text-sm text-[#495A52]">
           New to SalonBook?{' '}
-          <Link href="/sign-up" className="font-semibold text-[#E08A5E] hover:underline">
+          <Link href="/sign-up" className="font-semibold text-[#1E3A2F] underline decoration-[#B5893D]">
             Create an account
           </Link>
         </p>

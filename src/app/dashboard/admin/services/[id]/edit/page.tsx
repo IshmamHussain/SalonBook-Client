@@ -45,7 +45,7 @@ export default function EditServicePage() {
 
   if (error || !service) {
     return (
-      <div className="atelier-surface p-8 text-center text-sm text-rose-300">
+      <div className="maison-card p-8 text-center text-sm text-rose-800">
         {error || 'Salon service not found.'}
       </div>
     );

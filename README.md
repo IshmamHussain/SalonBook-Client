@@ -1,10 +1,10 @@
 # SalonBook — Client (Next.js App Router)
 
-Frontend web application for **SalonBook**, a role-based salon appointment booking platform featuring an interactive WebGL Living Light Portal, Three.js 3D studio showcase, service search/filtering/sorting, Better Auth authentication, Stripe Checkout integration, and dedicated Customer & Admin dashboards.
+Frontend web application for **SalonBook**, a role-based salon appointment booking platform styled in a sunlit French Maison terrace aesthetic with an interactive Three.js 3D botanical elixir flacon, service search/filtering/sorting, Better Auth authentication, Stripe Checkout integration, and dedicated Customer & Admin dashboards.
 
 ## Important Features
 
-- **Interactive 3D WebGL Living Light Portal & Atelier**: Custom GLSL silk-particle wave field and interactive 3D studio glass prism with `prefers-reduced-motion` and WebGL fallback support.
+- **Sunlit Maison Storefront & Interactive 3D Flacon**: Architectural three-column terrace hero with arched salon photography vista and an interactive Three.js PBR crystal & gilt-bronze elixir flacon with `prefers-reduced-motion` and WebGL fallback support.
 - **Public Salon Discovery**: Home page with Featured Active Services (6+), 7 Salon Service Categories, and full Browse Services page supporting live search by service name, category filtering, and price sorting.
 - **Protected Service Details & Conflict-Free Booking**: Dynamic `/services/[id]` route enforcing authentication, real-time booked-slot availability, predefined time slots, and customer-only booking.
 - **Better Auth Authentication**: Email/Password registration (with password complexity checklist and ImgBB upload or URL avatar) + Google OAuth login + instant Navbar state updates and role-based redirects.

@@ -110,25 +110,25 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
     <div className="mx-auto max-w-3xl space-y-6">
       <Link
         href="/dashboard/admin/services"
-        className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-[#B4C2CF] hover:text-[#E08A5E]"
+        className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-[#495A52] hover:text-[#1E3A2F]"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Back to Manage Services
       </Link>
 
       <div>
-        <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#F4F6F8]">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
           {mode === 'create' ? 'Add New Salon Service' : 'Update Salon Service'}
         </h1>
-        <p className="mt-1.5 text-sm text-[#B4C2CF]">
+        <p className="mt-1.5 text-sm text-[#495A52]">
           Upload a high-resolution image directly to ImgBB and set pricing, duration, and active visibility.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="atelier-surface space-y-6 p-6 sm:p-8">
+      <form onSubmit={handleSubmit} className="maison-card space-y-6 p-6 sm:p-8">
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label htmlFor="service-name" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="service-name" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Service Name
             </label>
             <input
@@ -140,19 +140,19 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
               value={serviceName}
               onChange={(e) => setServiceName(e.target.value)}
               placeholder="e.g., Precision Architectural Haircut & Blowout"
-              className="mt-2 w-full border border-white/18 bg-[#0B0F14] px-4 py-3 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+              className="mt-2 w-full border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
             />
           </div>
 
           <div>
-            <label htmlFor="service-category" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="service-category" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Service Category
             </label>
             <select
               id="service-category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="mt-2 w-full cursor-pointer border border-white/18 bg-[#0B0F14] px-4 py-3 text-sm text-[#F4F6F8] focus:border-[#E08A5E] focus:outline-none"
+              className="mt-2 w-full cursor-pointer border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
             >
               {SERVICE_CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -163,14 +163,14 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
           </div>
 
           <div>
-            <label htmlFor="service-status" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="service-status" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Service Status
             </label>
             <select
               id="service-status"
               value={status}
               onChange={(e) => setStatus(e.target.value as ServiceStatus)}
-              className="mt-2 w-full cursor-pointer border border-white/18 bg-[#0B0F14] px-4 py-3 text-sm text-[#F4F6F8] focus:border-[#E08A5E] focus:outline-none"
+              className="mt-2 w-full cursor-pointer border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
             >
               <option value="active">Active (Visible &amp; Bookable)</option>
               <option value="inactive">Inactive (Hidden from Customers)</option>
@@ -178,7 +178,7 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
           </div>
 
           <div>
-            <label htmlFor="service-price" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="service-price" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Price (USD)
             </label>
             <input
@@ -190,12 +190,12 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               placeholder="85"
-              className="mt-2 w-full border border-white/18 bg-[#0B0F14] px-4 py-3 font-mono text-sm tabular-nums text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+              className="mt-2 w-full border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 font-mono text-sm tabular-nums text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
             />
           </div>
 
           <div>
-            <label htmlFor="service-duration" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="service-duration" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Estimated Duration (Minutes)
             </label>
             <input
@@ -207,13 +207,13 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               placeholder="60"
-              className="mt-2 w-full border border-white/18 bg-[#0B0F14] px-4 py-3 font-mono text-sm tabular-nums text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+              className="mt-2 w-full border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 font-mono text-sm tabular-nums text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="service-description" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+          <label htmlFor="service-description" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
             Description
           </label>
           <textarea
@@ -225,31 +225,31 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe the treatment craft, products used, and expected salon experience..."
-            className="mt-2 w-full border border-white/18 bg-[#0B0F14] px-4 py-3 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+            className="mt-2 w-full border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
           />
         </div>
 
         {/* Service Image Upload ONLY (No Image URL input per requirements) */}
         <div>
-          <span className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+          <span className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
             Service Image (Upload via ImgBB)
           </span>
           <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <label className="flex min-h-[160px] cursor-pointer flex-col items-center justify-center gap-2 border border-dashed border-white/25 bg-[#0B0F14] p-6 text-center transition-colors hover:border-[#E08A5E]">
+            <label className="flex min-h-[160px] cursor-pointer flex-col items-center justify-center gap-2 border border-dashed border-[#B5893D] bg-[#FFFFFF] p-6 text-center transition-colors hover:border-[#1E3A2F]">
               {uploading ? (
                 <>
-                  <Loader2 className="h-6 w-6 animate-spin text-[#E08A5E]" aria-hidden="true" />
-                  <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#E08A5E]">
+                  <Loader2 className="h-6 w-6 animate-spin text-[#B5893D]" aria-hidden="true" />
+                  <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#1E3A2F]">
                     Uploading to ImgBB...
                   </span>
                 </>
               ) : (
                 <>
-                  <ImagePlus className="h-6 w-6 text-[#E08A5E]" aria-hidden="true" />
-                  <span className="text-sm font-medium text-[#F4F6F8]">
+                  <ImagePlus className="h-6 w-6 text-[#B5893D]" aria-hidden="true" />
+                  <span className="text-sm font-medium text-[#16261F]">
                     {image ? 'Upload a replacement photo' : 'Click to upload service image'}
                   </span>
-                  <span className="font-mono text-[11px] text-[#7F92A4]">
+                  <span className="font-mono text-[11px] text-[#6D7B74]">
                     JPG, PNG, WebP · Max 5MB
                   </span>
                 </>
@@ -263,7 +263,7 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
               />
             </label>
 
-            <div className="flex min-h-[160px] items-center justify-center overflow-hidden border border-white/12 bg-[#0B0F14]">
+            <div className="flex min-h-[160px] items-center justify-center overflow-hidden border border-[#D5C9B4] bg-[#F4EFE6]">
               {image ? (
                 <img
                   src={image}
@@ -271,7 +271,7 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
                   className="h-44 w-full object-cover"
                 />
               ) : (
-                <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#637485]">
+                <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#6D7B74]">
                   No image uploaded yet
                 </span>
               )}
@@ -283,7 +283,7 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
           <button
             type="submit"
             disabled={submitting || uploading}
-            className="inline-flex cursor-pointer items-center gap-2 bg-[#E08A5E] px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076] disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-emerald inline-flex cursor-pointer items-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? (
               <>
@@ -299,7 +299,7 @@ export function ServiceForm({ mode, initialService }: ServiceFormProps) {
           </button>
           <Link
             href="/dashboard/admin/services"
-            className="border border-white/18 px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#B4C2CF] hover:border-white/35 hover:text-[#F4F6F8]"
+            className="btn-limestone px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.12em]"
           >
             Cancel
           </Link>

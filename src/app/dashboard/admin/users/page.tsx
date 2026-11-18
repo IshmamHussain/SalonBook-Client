@@ -41,7 +41,6 @@ export default function AdminManageUsersPage() {
     const nextBlocked = !blockTarget.isBlocked;
     const previous = users;
 
-    // Optimistic update with rollback on error
     setUsers((curr) =>
       curr.map((u) => (u.id === blockTarget.id ? { ...u, isBlocked: nextBlocked } : u))
     );
@@ -69,29 +68,29 @@ export default function AdminManageUsersPage() {
   if (loading) return <LoadingSpinner label="Loading registered customers..." />;
 
   if (error) {
-    return <div className="atelier-surface p-8 text-center text-sm text-rose-300">{error}</div>;
+    return <div className="maison-card p-8 text-center text-sm text-rose-800">{error}</div>;
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#F4F6F8]">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
           Manage Customers
         </h1>
-        <p className="mt-1.5 text-sm text-[#B4C2CF]">
+        <p className="mt-1.5 text-sm text-[#495A52]">
           Review registered customer accounts and block or unblock access to protected booking and payment features.
         </p>
       </div>
 
       {users.length === 0 ? (
-        <div className="atelier-surface p-12 text-center">
-          <p className="font-display text-xl font-bold text-[#F4F6F8]">No registered customers yet</p>
+        <div className="maison-card p-12 text-center">
+          <p className="font-display text-xl font-semibold text-[#1E3A2F]">No registered customers yet</p>
         </div>
       ) : (
-        <div className="atelier-surface overflow-x-auto">
+        <div className="maison-card overflow-x-auto">
           <table className="w-full min-w-[780px] border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-white/12 bg-[#121922] font-mono text-[11px] uppercase tracking-[0.14em] text-[#8DB4D4]">
+              <tr className="border-b border-[#D5C9B4] bg-[#EBE4D6] font-mono text-[11px] uppercase tracking-[0.14em] text-[#1E3A2F]">
                 <th className="px-5 py-3.5">Customer</th>
                 <th className="px-5 py-3.5">Email</th>
                 <th className="px-5 py-3.5">Appointments</th>
@@ -99,23 +98,27 @@ export default function AdminManageUsersPage() {
                 <th className="px-5 py-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
+            <tbody className="divide-y divide-[#E2D9C8]">
               {users.map((u) => (
-                <tr key={u.id} className="transition-colors hover:bg-white/[0.03]">
+                <tr key={u.id} className="transition-colors hover:bg-[#F4EFE6]/70">
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       {u.image ? (
-                        <img src={u.image} alt={u.name} className="h-9 w-9 rounded-full object-cover" />
+                        <img
+                          src={u.image}
+                          alt={u.name}
+                          className="h-9 w-9 rounded-full border border-[#B5893D]/60 object-cover"
+                        />
                       ) : (
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#2A4359] text-xs font-bold text-[#F4F6F8]">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1E3A2F] font-display text-xs font-bold text-[#E8CF9C]">
                           {u.name?.charAt(0)?.toUpperCase() || 'C'}
                         </span>
                       )}
-                      <span className="font-semibold text-[#F4F6F8]">{u.name}</span>
+                      <span className="font-semibold text-[#16261F]">{u.name}</span>
                     </div>
                   </td>
-                  <td className="px-5 py-4 text-[#B4C2CF]">{u.email}</td>
-                  <td className="px-5 py-4 font-mono text-xs tabular-nums text-[#D0DCE7]">
+                  <td className="px-5 py-4 text-[#495A52]">{u.email}</td>
+                  <td className="px-5 py-4 font-mono text-xs tabular-nums text-[#16261F]">
                     {u.appointmentCount ?? 0}
                   </td>
                   <td className="px-5 py-4">
@@ -126,7 +129,7 @@ export default function AdminManageUsersPage() {
                       <button
                         type="button"
                         onClick={() => setDetailsUser(u)}
-                        className="inline-flex cursor-pointer items-center gap-1 border border-white/16 px-2.5 py-1.5 text-xs text-[#D0DCE7] hover:border-[#8DB4D4]"
+                        className="inline-flex cursor-pointer items-center gap-1 border border-[#C9BFA9] bg-[#FFFFFF] px-2.5 py-1.5 text-xs text-[#16261F] hover:border-[#1E3A2F]"
                       >
                         <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                         Details
@@ -137,8 +140,8 @@ export default function AdminManageUsersPage() {
                         onClick={() => setBlockTarget(u)}
                         className={`inline-flex cursor-pointer items-center gap-1 border px-2.5 py-1.5 text-xs font-medium transition-colors ${
                           u.isBlocked
-                            ? 'border-emerald-400/40 text-emerald-300 hover:bg-emerald-500/15'
-                            : 'border-rose-400/35 text-rose-300 hover:bg-rose-500/15'
+                            ? 'border-emerald-800/35 bg-emerald-50 text-emerald-950 hover:bg-emerald-100'
+                            : 'border-rose-800/35 bg-rose-50 text-rose-900 hover:bg-rose-100'
                         }`}
                       >
                         {u.isBlocked ? (
@@ -167,54 +170,54 @@ export default function AdminManageUsersPage() {
           role="dialog"
           aria-modal="true"
           aria-label="Customer details"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#16261F]/65 p-4 backdrop-blur-xs"
         >
-          <div className="w-full max-w-md border border-white/20 bg-[#121922] p-6 shadow-2xl">
-            <div className="flex items-start justify-between border-b border-white/10 pb-4">
+          <div className="maison-card w-full max-w-md p-7 shadow-2xl">
+            <div className="flex items-start justify-between border-b border-[#E2D9C8] pb-4">
               <div className="flex items-center gap-3">
                 {detailsUser.image ? (
                   <img
                     src={detailsUser.image}
                     alt={detailsUser.name}
-                    className="h-11 w-11 rounded-full object-cover"
+                    className="h-11 w-11 rounded-full border border-[#B5893D] object-cover"
                   />
                 ) : (
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#2A4359] font-bold">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1E3A2F] font-display font-bold text-[#E8CF9C]">
                     {detailsUser.name?.charAt(0)?.toUpperCase() || 'C'}
                   </span>
                 )}
                 <div>
-                  <h2 className="font-display text-lg font-bold text-[#F4F6F8]">{detailsUser.name}</h2>
-                  <p className="text-xs text-[#8DB4D4]">{detailsUser.email}</p>
+                  <h2 className="font-display text-lg font-semibold text-[#1E3A2F]">{detailsUser.name}</h2>
+                  <p className="text-xs text-[#6D7B74]">{detailsUser.email}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setDetailsUser(null)}
                 aria-label="Close customer details"
-                className="cursor-pointer p-1 text-[#B4C2CF] hover:text-[#F4F6F8]"
+                className="cursor-pointer p-1 text-[#495A52] hover:text-[#16261F]"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
             <dl className="mt-5 space-y-3 text-sm">
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Phone</dt>
+                <dt className="text-[#6D7B74]">Phone</dt>
                 <dd className="font-mono text-xs">{detailsUser.phone || 'Not provided'}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Total Bookings</dt>
+                <dt className="text-[#6D7B74]">Total Bookings</dt>
                 <dd className="font-mono text-xs tabular-nums">{detailsUser.appointmentCount ?? 0}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Status</dt>
+                <dt className="text-[#6D7B74]">Status</dt>
                 <dd>
                   <StatusBadge variant={detailsUser.isBlocked ? 'blocked' : 'active'} />
                 </dd>
               </div>
               {detailsUser.createdAt && (
                 <div className="flex justify-between">
-                  <dt className="text-[#7F92A4]">Joined</dt>
+                  <dt className="text-[#6D7B74]">Joined</dt>
                   <dd className="font-mono text-xs">
                     {new Date(detailsUser.createdAt).toLocaleDateString()}
                   </dd>

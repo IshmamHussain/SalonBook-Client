@@ -48,7 +48,6 @@ export default function AdminManageAppointmentsPage() {
     const { appointment, nextStatus } = actionTarget;
     const previous = appointments;
 
-    // Optimistic update with rollback on error
     setAppointments((curr) =>
       curr.map((a) => (a.id === appointment.id ? { ...a, status: nextStatus } : a))
     );
@@ -77,10 +76,10 @@ export default function AdminManageAppointmentsPage() {
     <div className="space-y-6">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
-          <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#F4F6F8]">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
             Manage Appointments
           </h1>
-          <p className="mt-1.5 text-sm text-[#B4C2CF]">
+          <p className="mt-1.5 text-sm text-[#495A52]">
             Confirm pending requests to unlock customer Stripe checkout, or cancel pending and confirmed bookings.
           </p>
         </div>
@@ -93,8 +92,8 @@ export default function AdminManageAppointmentsPage() {
               onClick={() => setStatusFilter(tab)}
               className={`cursor-pointer border px-3.5 py-2 font-mono text-xs uppercase tracking-[0.12em] transition-colors ${
                 statusFilter === tab
-                  ? 'border-[#E08A5E] bg-[#E08A5E] font-semibold text-[#0B0F14]'
-                  : 'border-white/15 bg-[#121922] text-[#B4C2CF] hover:border-white/35 hover:text-[#F4F6F8]'
+                  ? 'border-[#B5893D] bg-[#1E3A2F] font-semibold text-[#FBF9F5]'
+                  : 'border-[#C9BFA9] bg-[#FBF9F5] text-[#495A52] hover:border-[#1E3A2F] hover:text-[#1E3A2F]'
               }`}
             >
               {tab}
@@ -106,17 +105,17 @@ export default function AdminManageAppointmentsPage() {
       {loading ? (
         <LoadingSpinner label="Loading appointment requests..." />
       ) : error ? (
-        <div className="atelier-surface p-8 text-center text-sm text-rose-300">{error}</div>
+        <div className="maison-card p-8 text-center text-sm text-rose-800">{error}</div>
       ) : appointments.length === 0 ? (
-        <div className="atelier-surface p-12 text-center">
-          <p className="font-display text-xl font-bold text-[#F4F6F8]">No appointments in this view</p>
-          <p className="mt-2 text-sm text-[#B4C2CF]">Customer booking requests will appear here automatically.</p>
+        <div className="maison-card p-12 text-center">
+          <p className="font-display text-xl font-semibold text-[#1E3A2F]">No appointments in this view</p>
+          <p className="mt-2 text-sm text-[#495A52]">Customer booking requests will appear here automatically.</p>
         </div>
       ) : (
-        <div className="atelier-surface overflow-x-auto">
+        <div className="maison-card overflow-x-auto">
           <table className="w-full min-w-[980px] border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-white/12 bg-[#121922] font-mono text-[11px] uppercase tracking-[0.14em] text-[#8DB4D4]">
+              <tr className="border-b border-[#D5C9B4] bg-[#EBE4D6] font-mono text-[11px] uppercase tracking-[0.14em] text-[#1E3A2F]">
                 <th className="px-5 py-3.5">Customer</th>
                 <th className="px-5 py-3.5">Service</th>
                 <th className="px-5 py-3.5">Schedule</th>
@@ -127,26 +126,26 @@ export default function AdminManageAppointmentsPage() {
                 <th className="px-5 py-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
+            <tbody className="divide-y divide-[#E2D9C8]">
               {appointments.map((appt) => {
                 const canConfirm = appt.status === 'pending';
                 const canCancel = appt.status === 'pending' || appt.status === 'confirmed';
 
                 return (
-                  <tr key={appt.id} className="transition-colors hover:bg-white/[0.03]">
+                  <tr key={appt.id} className="transition-colors hover:bg-[#F4EFE6]/70">
                     <td className="px-5 py-4">
-                      <p className="font-semibold text-[#F4F6F8]">{appt.customerName}</p>
-                      <p className="text-xs text-[#7F92A4]">{appt.customerEmail}</p>
+                      <p className="font-semibold text-[#16261F]">{appt.customerName}</p>
+                      <p className="text-xs text-[#6D7B74]">{appt.customerEmail}</p>
                     </td>
                     <td className="px-5 py-4">
-                      <p className="font-medium text-[#F4F6F8]">{appt.serviceName}</p>
-                      <p className="text-xs text-[#7F92A4]">{appt.serviceCategory}</p>
+                      <p className="font-medium text-[#16261F]">{appt.serviceName}</p>
+                      <p className="text-xs text-[#6D7B74]">{appt.serviceCategory}</p>
                     </td>
                     <td className="px-5 py-4 font-mono text-xs tabular-nums">
-                      <div className="text-[#F4F6F8]">{appt.appointmentDate}</div>
-                      <div className="text-[#8DB4D4]">{appt.timeSlot}</div>
+                      <div className="text-[#16261F]">{appt.appointmentDate}</div>
+                      <div className="text-[#495A52]">{appt.timeSlot}</div>
                     </td>
-                    <td className="px-5 py-4 font-mono font-semibold tabular-nums text-[#E08A5E]">
+                    <td className="px-5 py-4 font-mono font-semibold tabular-nums text-[#1E3A2F]">
                       ${Number(appt.servicePrice).toFixed(2)}
                     </td>
                     <td className="px-5 py-4">
@@ -155,7 +154,7 @@ export default function AdminManageAppointmentsPage() {
                     <td className="px-5 py-4">
                       <StatusBadge variant={appt.paymentStatus} />
                     </td>
-                    <td className="px-5 py-4 font-mono text-xs tabular-nums text-[#7F92A4]">
+                    <td className="px-5 py-4 font-mono text-xs tabular-nums text-[#6D7B74]">
                       {new Date(appt.createdAt).toLocaleDateString()}
                     </td>
                     <td className="px-5 py-4">
@@ -163,7 +162,7 @@ export default function AdminManageAppointmentsPage() {
                         <button
                           type="button"
                           onClick={() => setDetailsTarget(appt)}
-                          className="inline-flex cursor-pointer items-center gap-1 border border-white/16 px-2.5 py-1.5 text-xs text-[#D0DCE7] hover:border-[#8DB4D4]"
+                          className="inline-flex cursor-pointer items-center gap-1 border border-[#C9BFA9] bg-[#FFFFFF] px-2.5 py-1.5 text-xs text-[#16261F] hover:border-[#1E3A2F]"
                         >
                           <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                           Details
@@ -175,7 +174,7 @@ export default function AdminManageAppointmentsPage() {
                             onClick={() =>
                               setActionTarget({ appointment: appt, nextStatus: 'confirmed' })
                             }
-                            className="inline-flex cursor-pointer items-center gap-1 bg-emerald-600 px-2.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-emerald-500"
+                            className="btn-emerald inline-flex cursor-pointer items-center gap-1 px-2.5 py-1.5 text-xs font-semibold"
                           >
                             <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
                             Confirm
@@ -188,7 +187,7 @@ export default function AdminManageAppointmentsPage() {
                             onClick={() =>
                               setActionTarget({ appointment: appt, nextStatus: 'cancelled' })
                             }
-                            className="inline-flex cursor-pointer items-center gap-1 border border-rose-400/35 px-2.5 py-1.5 text-xs text-rose-300 transition-colors hover:bg-rose-500/15"
+                            className="inline-flex cursor-pointer items-center gap-1 border border-rose-800/35 bg-rose-50 px-2.5 py-1.5 text-xs text-rose-900 transition-colors hover:bg-rose-100"
                           >
                             <XCircle className="h-3.5 w-3.5" aria-hidden="true" />
                             Cancel
@@ -204,27 +203,26 @@ export default function AdminManageAppointmentsPage() {
         </div>
       )}
 
-      {/* Appointment Details Modal */}
       {detailsTarget && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label="Appointment full details"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#16261F]/65 p-4 backdrop-blur-xs"
         >
-          <div className="w-full max-w-lg border border-white/20 bg-[#121922] p-6 shadow-2xl">
-            <div className="flex items-start justify-between border-b border-white/10 pb-4">
+          <div className="maison-card w-full max-w-lg p-7 shadow-2xl">
+            <div className="flex items-start justify-between border-b border-[#E2D9C8] pb-4">
               <div>
-                <h2 className="font-display text-xl font-bold text-[#F4F6F8]">
+                <h2 className="font-display text-xl font-semibold text-[#1E3A2F]">
                   {detailsTarget.serviceName}
                 </h2>
-                <p className="text-xs text-[#8DB4D4]">{detailsTarget.serviceCategory}</p>
+                <p className="text-xs text-[#6D7B74]">{detailsTarget.serviceCategory}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setDetailsTarget(null)}
                 aria-label="Close modal"
-                className="cursor-pointer p-1 text-[#B4C2CF] hover:text-[#F4F6F8]"
+                className="cursor-pointer p-1 text-[#495A52] hover:text-[#16261F]"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -232,52 +230,52 @@ export default function AdminManageAppointmentsPage() {
 
             <dl className="mt-5 space-y-3 text-sm">
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Customer</dt>
-                <dd className="font-semibold text-[#F4F6F8]">{detailsTarget.customerName}</dd>
+                <dt className="text-[#6D7B74]">Customer</dt>
+                <dd className="font-semibold text-[#16261F]">{detailsTarget.customerName}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Email</dt>
-                <dd className="text-[#D0DCE7]">{detailsTarget.customerEmail}</dd>
+                <dt className="text-[#6D7B74]">Email</dt>
+                <dd className="text-[#495A52]">{detailsTarget.customerEmail}</dd>
               </div>
               {detailsTarget.customerPhone && (
                 <div className="flex justify-between">
-                  <dt className="text-[#7F92A4]">Phone</dt>
+                  <dt className="text-[#6D7B74]">Phone</dt>
                   <dd className="font-mono text-xs">{detailsTarget.customerPhone}</dd>
                 </div>
               )}
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Appointment Date &amp; Time</dt>
+                <dt className="text-[#6D7B74]">Appointment Date &amp; Time</dt>
                 <dd className="font-mono text-xs tabular-nums">
                   {detailsTarget.appointmentDate} · {detailsTarget.timeSlot}
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Service Price</dt>
-                <dd className="font-mono font-semibold text-[#E08A5E]">
+                <dt className="text-[#6D7B74]">Service Price</dt>
+                <dd className="font-mono font-semibold text-[#1E3A2F]">
                   ${Number(detailsTarget.servicePrice).toFixed(2)}
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Appointment Status</dt>
+                <dt className="text-[#6D7B74]">Appointment Status</dt>
                 <dd>
                   <StatusBadge variant={detailsTarget.status} />
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Payment Status</dt>
+                <dt className="text-[#6D7B74]">Payment Status</dt>
                 <dd>
                   <StatusBadge variant={detailsTarget.paymentStatus} />
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-[#7F92A4]">Booking Request Date</dt>
+                <dt className="text-[#6D7B74]">Booking Request Date</dt>
                 <dd className="font-mono text-xs">
                   {new Date(detailsTarget.createdAt).toLocaleString()}
                 </dd>
               </div>
-              <div className="border-t border-white/10 pt-3">
-                <dt className="text-xs text-[#7F92A4]">Customer Message</dt>
-                <dd className="mt-1 text-sm text-[#D0DCE7]">
+              <div className="border-t border-[#E2D9C8] pt-3">
+                <dt className="text-xs text-[#6D7B74]">Customer Message</dt>
+                <dd className="mt-1 text-sm text-[#16261F]">
                   {detailsTarget.message || 'No additional message provided.'}
                 </dd>
               </div>

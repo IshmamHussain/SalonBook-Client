@@ -50,7 +50,7 @@ export default function AdminOverviewPage() {
 
   if (error) {
     return (
-      <div className="atelier-surface p-8 text-center text-sm text-rose-300">{error}</div>
+      <div className="maison-card p-8 text-center text-sm text-rose-800">{error}</div>
     );
   }
 
@@ -59,35 +59,35 @@ export default function AdminOverviewPage() {
       label: 'Total Registered Customers',
       value: overview?.totalCustomers ?? 0,
       icon: Users,
-      accent: 'text-[#8DB4D4]',
+      accent: 'text-[#1E3A2F]',
       href: '/dashboard/admin/users',
     },
     {
       label: 'Total Active Services',
       value: overview?.totalActiveServices ?? 0,
       icon: Sparkles,
-      accent: 'text-[#E08A5E]',
+      accent: 'text-[#B5893D]',
       href: '/dashboard/admin/services',
     },
     {
       label: 'Total Appointment Requests',
       value: overview?.totalAppointments ?? 0,
       icon: CalendarCheck,
-      accent: 'text-[#F4F6F8]',
+      accent: 'text-[#1E3A2F]',
       href: '/dashboard/admin/appointments',
     },
     {
       label: 'Pending Appointments',
       value: overview?.pendingAppointments ?? 0,
       icon: Clock,
-      accent: 'text-amber-300',
+      accent: 'text-amber-700',
       href: '/dashboard/admin/appointments',
     },
     {
       label: 'Confirmed Appointments',
       value: overview?.confirmedAppointments ?? 0,
       icon: CheckCircle2,
-      accent: 'text-emerald-300',
+      accent: 'text-emerald-800',
       href: '/dashboard/admin/appointments',
     },
     {
@@ -95,7 +95,7 @@ export default function AdminOverviewPage() {
       value: overview?.totalSuccessfulPayments ?? 0,
       sub: `$${Number(overview?.totalRevenue ?? 0).toFixed(2)} verified revenue`,
       icon: CreditCard,
-      accent: 'text-teal-300',
+      accent: 'text-teal-800',
       href: '/dashboard/admin/transactions',
     },
   ];
@@ -104,17 +104,17 @@ export default function AdminOverviewPage() {
     <div className="space-y-8">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
-          <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#F4F6F8]">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
             Admin Studio Overview
           </h1>
-          <p className="mt-1.5 text-sm text-[#B4C2CF]">
+          <p className="mt-1.5 text-sm text-[#495A52]">
             Monitor registered customers, active salon services, appointment confirmations, and Stripe-verified transactions.
           </p>
         </div>
 
         <Link
           href="/dashboard/admin/services/new"
-          className="inline-flex w-fit items-center gap-2 bg-[#E08A5E] px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076]"
+          className="btn-emerald inline-flex w-fit items-center gap-2 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
         >
           <PlusCircle className="h-4 w-4" aria-hidden="true" />
           Add New Service
@@ -128,23 +128,23 @@ export default function AdminOverviewPage() {
             <Link
               key={metric.label}
               href={metric.href}
-              className="atelier-surface atelier-surface-hover group flex flex-col justify-between p-6"
+              className="maison-card maison-card-hover group flex flex-col justify-between p-6"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-[#B4C2CF]">{metric.label}</span>
+                <span className="text-xs font-medium text-[#495A52]">{metric.label}</span>
                 <Icon className={`h-4 w-4 ${metric.accent}`} aria-hidden="true" />
               </div>
               <div className="mt-5 flex items-end justify-between">
                 <div>
-                  <p className="font-mono text-4xl font-semibold tabular-nums text-[#F4F6F8]">
+                  <p className="font-mono text-4xl font-semibold tabular-nums text-[#1E3A2F]">
                     {metric.value}
                   </p>
                   {metric.sub && (
-                    <p className="mt-1 font-mono text-xs text-teal-300">{metric.sub}</p>
+                    <p className="mt-1 font-mono text-xs font-medium text-teal-800">{metric.sub}</p>
                   )}
                 </div>
                 <ArrowRight
-                  className="h-4 w-4 text-[#7F92A4] transition-transform group-hover:translate-x-1 group-hover:text-[#E08A5E]"
+                  className="h-4 w-4 text-[#B5893D] transition-transform group-hover:translate-x-1 group-hover:text-[#1E3A2F]"
                   aria-hidden="true"
                 />
               </div>

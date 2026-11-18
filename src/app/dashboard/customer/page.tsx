@@ -51,9 +51,7 @@ export default function CustomerOverviewPage() {
 
   if (error) {
     return (
-      <div className="atelier-surface p-8 text-center text-sm text-rose-300">
-        {error}
-      </div>
+      <div className="maison-card p-8 text-center text-sm text-rose-800">{error}</div>
     );
   }
 
@@ -62,25 +60,25 @@ export default function CustomerOverviewPage() {
       label: 'Total Appointment Requests',
       value: overview?.totalAppointments ?? 0,
       icon: CalendarCheck,
-      tone: 'text-[#8DB4D4]',
+      tone: 'text-[#1E3A2F]',
     },
     {
       label: 'Pending Appointments',
       value: overview?.pendingAppointments ?? 0,
       icon: Clock,
-      tone: 'text-amber-300',
+      tone: 'text-amber-700',
     },
     {
       label: 'Confirmed Appointments',
       value: overview?.confirmedAppointments ?? 0,
       icon: CheckCircle2,
-      tone: 'text-emerald-300',
+      tone: 'text-emerald-800',
     },
     {
       label: 'Cancelled Appointments',
       value: overview?.cancelledAppointments ?? 0,
       icon: XCircle,
-      tone: 'text-rose-300',
+      tone: 'text-rose-800',
     },
   ];
 
@@ -88,33 +86,32 @@ export default function CustomerOverviewPage() {
     <div className="space-y-8">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
-          <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#F4F6F8]">
-            Welcome back, {user?.name}
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
+            Welcome Back, {user?.name}
           </h1>
-          <p className="mt-1.5 text-sm text-[#B4C2CF]">
+          <p className="mt-1.5 text-sm text-[#495A52]">
             Track your salon booking requests, confirm upcoming dates, and complete Stripe payments once approved.
           </p>
         </div>
         <Link
           href="/services"
-          className="inline-flex w-fit items-center gap-2 bg-[#E08A5E] px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076]"
+          className="btn-emerald inline-flex w-fit items-center gap-2 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
         >
           Book New Service
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
 
-      {/* Stat Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="atelier-surface p-6">
+            <div key={stat.label} className="maison-card p-6">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-[#B4C2CF]">{stat.label}</span>
+                <span className="text-xs font-medium text-[#495A52]">{stat.label}</span>
                 <Icon className={`h-4 w-4 ${stat.tone}`} aria-hidden="true" />
               </div>
-              <p className="mt-4 font-mono text-4xl font-semibold tabular-nums text-[#F4F6F8]">
+              <p className="mt-4 font-mono text-4xl font-semibold tabular-nums text-[#1E3A2F]">
                 {stat.value}
               </p>
             </div>
@@ -122,13 +119,12 @@ export default function CustomerOverviewPage() {
         })}
       </div>
 
-      {/* Recent Appointments Preview */}
-      <div className="atelier-surface">
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-          <h2 className="font-display text-lg font-bold text-[#F4F6F8]">Recent Appointments</h2>
+      <div className="maison-card overflow-hidden">
+        <div className="flex items-center justify-between border-b border-[#E2D9C8] bg-[#F4EFE6] px-6 py-4">
+          <h2 className="font-display text-lg font-semibold text-[#1E3A2F]">Recent Appointments</h2>
           <Link
             href="/dashboard/customer/appointments"
-            className="font-mono text-xs uppercase tracking-[0.12em] text-[#E08A5E] hover:underline"
+            className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-[#1E3A2F] hover:text-[#B5893D]"
           >
             View All &rarr;
           </Link>
@@ -136,16 +132,16 @@ export default function CustomerOverviewPage() {
 
         {recentAppointments.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-sm text-[#B4C2CF]">You haven&apos;t submitted any appointment requests yet.</p>
+            <p className="text-sm text-[#495A52]">You haven&apos;t submitted any appointment requests yet.</p>
             <Link
               href="/services"
-              className="mt-4 inline-flex items-center gap-2 border border-[#E08A5E] px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-[#E08A5E]"
+              className="btn-limestone mt-4 inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em]"
             >
               Explore Salon Services
             </Link>
           </div>
         ) : (
-          <div className="divide-y divide-white/10">
+          <div className="divide-y divide-[#E2D9C8]">
             {recentAppointments.map((appt) => (
               <div
                 key={appt.id}
@@ -156,14 +152,14 @@ export default function CustomerOverviewPage() {
                     <img
                       src={appt.serviceImage}
                       alt={appt.serviceName}
-                      className="h-12 w-12 shrink-0 object-cover"
+                      className="h-12 w-12 shrink-0 border border-[#D5C9B4] object-cover"
                     />
                   ) : (
-                    <div className="h-12 w-12 shrink-0 bg-[#18222E]" />
+                    <div className="h-12 w-12 shrink-0 bg-[#EAE2D3]" />
                   )}
                   <div>
-                    <p className="font-semibold text-[#F4F6F8]">{appt.serviceName}</p>
-                    <p className="font-mono text-xs tabular-nums text-[#B4C2CF]">
+                    <p className="font-semibold text-[#16261F]">{appt.serviceName}</p>
+                    <p className="font-mono text-xs tabular-nums text-[#495A52]">
                       {appt.appointmentDate} · {appt.timeSlot} · ${Number(appt.servicePrice).toFixed(2)}
                     </p>
                   </div>

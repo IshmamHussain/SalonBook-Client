@@ -53,7 +53,7 @@ function PaymentSuccessContent() {
           return;
         }
       } catch {
-        // Keep polling briefly while Stripe webhook finalizes
+        // Retry briefly while Stripe webhook finalizes
       }
 
       attempts += 1;
@@ -71,50 +71,50 @@ function PaymentSuccessContent() {
   }, [authLoading, user, sessionId]);
 
   return (
-    <section className="portal-grain flex min-h-[75vh] items-center justify-center px-4 py-16">
-      <div className="atelier-surface w-full max-w-lg p-8 text-center sm:p-10">
+    <section className="terrace-ground flex min-h-[75vh] items-center justify-center px-4 py-16">
+      <div className="maison-card w-full max-w-lg p-8 text-center sm:p-10">
         {checking ? (
           <div className="py-6">
-            <Loader2 className="mx-auto h-10 w-10 animate-spin text-[#E08A5E]" aria-hidden="true" />
-            <h1 className="mt-5 font-display text-3xl font-extrabold text-[#F4F6F8]">
-              Confirming your payment
+            <Loader2 className="mx-auto h-10 w-10 animate-spin text-[#B5893D]" aria-hidden="true" />
+            <h1 className="mt-5 font-display text-3xl font-semibold text-[#1E3A2F]">
+              Confirming Your Payment
             </h1>
-            <p className="mt-3 text-sm text-[#B4C2CF]">
+            <p className="mt-3 text-sm text-[#495A52]">
               Waiting for verified Stripe webhook confirmation to finalize your transaction record...
             </p>
           </div>
         ) : verified && transaction ? (
           <>
-            <div className="mx-auto flex h-14 w-14 items-center justify-center border border-emerald-400/40 bg-emerald-400/15 text-emerald-300">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center border border-[#B5893D] bg-[#1E3A2F] text-[#E8CF9C]">
               <CheckCircle2 className="h-7 w-7" aria-hidden="true" />
             </div>
-            <h1 className="mt-6 font-display text-3xl font-extrabold text-[#F4F6F8]">
+            <h1 className="mt-6 font-display text-3xl font-semibold text-[#1E3A2F]">
               Payment Confirmed
             </h1>
-            <p className="mt-2 text-sm text-[#B4C2CF]">
-              Your appointment payment has been verified via Stripe webhook and recorded cleanly.
+            <p className="mt-2 text-sm text-[#495A52]">
+              Your appointment payment has been verified via Stripe webhook and recorded.
             </p>
 
-            <dl className="mt-6 space-y-3 border-y border-white/12 py-5 text-left text-sm">
+            <dl className="mt-6 space-y-3 border-y border-[#E2D9C8] py-5 text-left text-sm">
               <div className="flex justify-between gap-4">
-                <dt className="text-[#7F92A4]">Service</dt>
-                <dd className="font-semibold text-[#F4F6F8]">{transaction.serviceName}</dd>
+                <dt className="text-[#6D7B74]">Service</dt>
+                <dd className="font-semibold text-[#16261F]">{transaction.serviceName}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-[#7F92A4]">Appointment</dt>
-                <dd className="font-mono text-xs tabular-nums text-[#F4F6F8]">
+                <dt className="text-[#6D7B74]">Appointment</dt>
+                <dd className="font-mono text-xs tabular-nums text-[#16261F]">
                   {transaction.appointmentDate} · {transaction.timeSlot}
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-[#7F92A4]">Amount Paid</dt>
-                <dd className="font-mono text-base font-semibold tabular-nums text-[#E08A5E]">
+                <dt className="text-[#6D7B74]">Amount Paid</dt>
+                <dd className="font-mono text-base font-semibold tabular-nums text-[#1E3A2F]">
                   ${Number(transaction.amount).toFixed(2)} {transaction.currency}
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-[#7F92A4]">Stripe Reference</dt>
-                <dd className="max-w-[200px] truncate font-mono text-xs text-[#8DB4D4]">
+                <dt className="text-[#6D7B74]">Stripe Reference</dt>
+                <dd className="max-w-[200px] truncate font-mono text-xs text-[#495A52]">
                   {transaction.stripeSessionId}
                 </dd>
               </div>
@@ -122,7 +122,7 @@ function PaymentSuccessContent() {
 
             <Link
               href="/dashboard/customer/appointments"
-              className="mt-7 inline-flex items-center gap-2 bg-[#E08A5E] px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076]"
+              className="btn-emerald mt-7 inline-flex items-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.14em]"
             >
               View My Appointments
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -130,18 +130,18 @@ function PaymentSuccessContent() {
           </>
         ) : (
           <>
-            <div className="mx-auto flex h-14 w-14 items-center justify-center border border-[#8DB4D4]/40 bg-[#8DB4D4]/15 text-[#8DB4D4]">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center border border-[#B5893D] bg-[#F4EFE6] text-[#1E3A2F]">
               <Clock className="h-7 w-7" aria-hidden="true" />
             </div>
-            <h1 className="mt-6 font-display text-3xl font-extrabold text-[#F4F6F8]">
+            <h1 className="mt-6 font-display text-3xl font-semibold text-[#1E3A2F]">
               Stripe Checkout Completed
             </h1>
-            <p className="mt-3 text-sm leading-relaxed text-[#B4C2CF]">
-              Your payment was submitted to Stripe. Your appointment status will update to Paid automatically the moment the verified Stripe webhook arrives.
+            <p className="mt-3 text-sm leading-relaxed text-[#495A52]">
+              Your payment was submitted to Stripe. Your appointment status will update to Paid automatically once the verified Stripe webhook arrives.
             </p>
             <Link
               href="/dashboard/customer/appointments"
-              className="mt-7 inline-flex items-center gap-2 bg-[#E08A5E] px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076]"
+              className="btn-emerald mt-7 inline-flex items-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.14em]"
             >
               Go to My Appointments
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

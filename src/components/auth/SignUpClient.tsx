@@ -101,22 +101,22 @@ export function SignUpClient() {
   }
 
   return (
-    <div className="portal-grain flex min-h-[calc(100vh-4.5rem)] items-center justify-center px-4 py-14">
-      <div className="atelier-surface w-full max-w-lg p-8 sm:p-10">
-        <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#F4F6F8]">
-          Create your SalonBook account
+    <div className="terrace-ground flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 py-14">
+      <div className="maison-card w-full max-w-lg p-8 sm:p-10">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
+          Create Your SalonBook Account
         </h1>
-        <p className="mt-2 text-sm text-[#B4C2CF]">
-          Register as a customer to request salon appointments, track confirmations, and pay through Stripe.
+        <p className="mt-2 text-sm text-[#495A52]">
+          Register as a customer to submit appointment requests, track confirmations, and pay via Stripe.
         </p>
 
         <form onSubmit={handleSignUp} className="mt-7 space-y-5">
           <div>
-            <label htmlFor="signup-name" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="signup-name" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Full Name
             </label>
             <div className="relative mt-2">
-              <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7F92A4]" aria-hidden="true" />
+              <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B5893D]" aria-hidden="true" />
               <input
                 id="signup-name"
                 type="text"
@@ -124,18 +124,18 @@ export function SignUpClient() {
                 minLength={2}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Sophia Laurent"
-                className="w-full border border-white/18 bg-[#0B0F14] py-3 pl-10 pr-4 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+                placeholder="Camille Laurent"
+                className="w-full border border-[#C9BFA9] bg-[#FFFFFF] py-3 pl-10 pr-4 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="signup-email" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="signup-email" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Email Address
             </label>
             <div className="relative mt-2">
-              <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7F92A4]" aria-hidden="true" />
+              <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B5893D]" aria-hidden="true" />
               <input
                 id="signup-email"
                 type="email"
@@ -144,17 +144,17 @@ export function SignUpClient() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full border border-white/18 bg-[#0B0F14] py-3 pl-10 pr-4 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+                className="w-full border border-[#C9BFA9] bg-[#FFFFFF] py-3 pl-10 pr-4 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="signup-password" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+            <label htmlFor="signup-password" className="block font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
               Password
             </label>
             <div className="relative mt-2">
-              <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7F92A4]" aria-hidden="true" />
+              <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B5893D]" aria-hidden="true" />
               <input
                 id="signup-password"
                 type={showPassword ? 'text' : 'password'}
@@ -163,27 +163,26 @@ export function SignUpClient() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create a strong password"
-                className="w-full border border-white/18 bg-[#0B0F14] py-3 pl-10 pr-11 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+                className="w-full border border-[#C9BFA9] bg-[#FFFFFF] py-3 pl-10 pr-11 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer p-1 text-[#7F92A4] hover:text-[#F4F6F8]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer p-1 text-[#6D7B74] hover:text-[#1E3A2F]"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
 
-            {/* Password rules checklist */}
             <div className="mt-2.5 flex flex-wrap gap-3 font-mono text-[11px]">
-              <span className={`inline-flex items-center gap-1 ${hasMinLen ? 'text-emerald-300' : 'text-[#7F92A4]'}`}>
+              <span className={`inline-flex items-center gap-1 ${hasMinLen ? 'font-semibold text-emerald-800' : 'text-[#6D7B74]'}`}>
                 <Check className="h-3 w-3" aria-hidden="true" /> 6+ chars
               </span>
-              <span className={`inline-flex items-center gap-1 ${hasUppercase ? 'text-emerald-300' : 'text-[#7F92A4]'}`}>
+              <span className={`inline-flex items-center gap-1 ${hasUppercase ? 'font-semibold text-emerald-800' : 'text-[#6D7B74]'}`}>
                 <Check className="h-3 w-3" aria-hidden="true" /> 1 uppercase
               </span>
-              <span className={`inline-flex items-center gap-1 ${hasLowercase ? 'text-emerald-300' : 'text-[#7F92A4]'}`}>
+              <span className={`inline-flex items-center gap-1 ${hasLowercase ? 'font-semibold text-emerald-800' : 'text-[#6D7B74]'}`}>
                 <Check className="h-3 w-3" aria-hidden="true" /> 1 lowercase
               </span>
             </div>
@@ -192,15 +191,15 @@ export function SignUpClient() {
           {/* Profile Image: Upload OR URL */}
           <div>
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#B4C2CF]">
+              <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#495A52]">
                 Profile Image (Optional)
               </span>
-              <div className="flex border border-white/15 text-[11px] font-mono">
+              <div className="flex border border-[#C9BFA9] bg-[#F4EFE6] font-mono text-[11px]">
                 <button
                   type="button"
                   onClick={() => setImageMode('upload')}
                   className={`inline-flex cursor-pointer items-center gap-1 px-2.5 py-1 ${
-                    imageMode === 'upload' ? 'bg-[#E08A5E] font-semibold text-[#0B0F14]' : 'text-[#B4C2CF]'
+                    imageMode === 'upload' ? 'bg-[#1E3A2F] font-semibold text-[#FBF9F5]' : 'text-[#495A52]'
                   }`}
                 >
                   <ImagePlus className="h-3 w-3" aria-hidden="true" /> Upload
@@ -209,7 +208,7 @@ export function SignUpClient() {
                   type="button"
                   onClick={() => setImageMode('url')}
                   className={`inline-flex cursor-pointer items-center gap-1 px-2.5 py-1 ${
-                    imageMode === 'url' ? 'bg-[#E08A5E] font-semibold text-[#0B0F14]' : 'text-[#B4C2CF]'
+                    imageMode === 'url' ? 'bg-[#1E3A2F] font-semibold text-[#FBF9F5]' : 'text-[#495A52]'
                   }`}
                 >
                   <Link2 className="h-3 w-3" aria-hidden="true" /> Image URL
@@ -219,15 +218,15 @@ export function SignUpClient() {
 
             {imageMode === 'upload' ? (
               <div className="mt-2 flex items-center gap-3">
-                <label className="flex flex-1 cursor-pointer items-center justify-center gap-2 border border-dashed border-white/25 bg-[#0B0F14] px-4 py-3 text-xs font-medium text-[#B4C2CF] transition-colors hover:border-[#E08A5E] hover:text-[#F4F6F8]">
+                <label className="flex flex-1 cursor-pointer items-center justify-center gap-2 border border-dashed border-[#B5893D] bg-[#FFFFFF] px-4 py-3 text-xs font-medium text-[#495A52] transition-colors hover:border-[#1E3A2F] hover:text-[#1E3A2F]">
                   {uploadingImage ? (
                     <>
-                      <Loader2 className="h-4 w-4 animate-spin text-[#E08A5E]" aria-hidden="true" />
+                      <Loader2 className="h-4 w-4 animate-spin text-[#B5893D]" aria-hidden="true" />
                       Uploading to ImgBB...
                     </>
                   ) : (
                     <>
-                      <ImagePlus className="h-4 w-4 text-[#E08A5E]" aria-hidden="true" />
+                      <ImagePlus className="h-4 w-4 text-[#B5893D]" aria-hidden="true" />
                       {imageUrl ? 'Replace uploaded image' : 'Choose profile photo (JPG/PNG/WebP)'}
                     </>
                   )}
@@ -243,7 +242,7 @@ export function SignUpClient() {
                   <img
                     src={imageUrl}
                     alt="Profile preview"
-                    className="h-11 w-11 shrink-0 rounded-full border border-[#E08A5E]/60 object-cover"
+                    className="h-11 w-11 shrink-0 rounded-full border border-[#B5893D] object-cover"
                   />
                 )}
               </div>
@@ -255,13 +254,13 @@ export function SignUpClient() {
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="https://example.com/your-photo.jpg"
                   aria-label="Profile image URL"
-                  className="flex-1 border border-white/18 bg-[#0B0F14] px-4 py-3 text-sm text-[#F4F6F8] placeholder:text-[#637485] focus:border-[#E08A5E] focus:outline-none"
+                  className="flex-1 border border-[#C9BFA9] bg-[#FFFFFF] px-4 py-3 text-sm text-[#16261F] placeholder:text-[#7D8A83] focus:border-[#1E3A2F] focus:outline-none"
                 />
                 {imageUrl && (
                   <img
                     src={imageUrl}
                     alt="Profile preview"
-                    className="h-11 w-11 shrink-0 rounded-full border border-white/20 object-cover"
+                    className="h-11 w-11 shrink-0 rounded-full border border-[#B5893D] object-cover"
                   />
                 )}
               </div>
@@ -271,7 +270,7 @@ export function SignUpClient() {
           <button
             type="submit"
             disabled={submitting || uploadingImage}
-            className="inline-flex w-full cursor-pointer items-center justify-center gap-2 bg-[#E08A5E] px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[#0B0F14] transition-colors hover:bg-[#F0A076] disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-emerald inline-flex w-full cursor-pointer items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? (
               <>
@@ -288,16 +287,16 @@ export function SignUpClient() {
         </form>
 
         <div className="my-6 flex items-center gap-3">
-          <div className="h-px flex-1 bg-white/12" />
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#7F92A4]">or</span>
-          <div className="h-px flex-1 bg-white/12" />
+          <div className="h-px flex-1 bg-[#D5C9B4]" />
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6D7B74]">or</span>
+          <div className="h-px flex-1 bg-[#D5C9B4]" />
         </div>
 
         <button
           type="button"
           onClick={handleGoogleSignUp}
           disabled={googleLoading}
-          className="inline-flex w-full cursor-pointer items-center justify-center gap-3 border border-white/18 bg-[#0B0F14] px-5 py-3 text-sm font-semibold text-[#F4F6F8] transition-colors hover:border-[#E08A5E] disabled:opacity-60"
+          className="btn-limestone inline-flex w-full cursor-pointer items-center justify-center gap-3 px-5 py-3 text-sm font-semibold disabled:opacity-60"
         >
           {googleLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -309,9 +308,9 @@ export function SignUpClient() {
           Sign Up with Google
         </button>
 
-        <p className="mt-7 text-center text-sm text-[#B4C2CF]">
+        <p className="mt-7 text-center text-sm text-[#495A52]">
           Already have an account?{' '}
-          <Link href="/sign-in" className="font-semibold text-[#E08A5E] hover:underline">
+          <Link href="/sign-in" className="font-semibold text-[#1E3A2F] underline decoration-[#B5893D]">
             Sign in
           </Link>
         </p>
