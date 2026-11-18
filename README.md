@@ -51,6 +51,6 @@ Configure these variable names in `.env.local` (never commit actual secrets):
 
 ## Links
 
-- **Live Website**: `<add-live-client-url-after-deployment>`
+- **Live Website**: https://salon-book-client-umber.vercel.app
 - **Client Repository**: https://github.com/IshmamHussain/SalonBook-Client
 - **Server Repository**: https://github.com/IshmamHussain/SalonBook-Server
