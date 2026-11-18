@@ -13,10 +13,11 @@ export function BrowseServicesClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const initialSort = searchParams.get('sort') === 'price_desc' ? 'price_desc' : 'price_asc';
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [debouncedSearch, setDebouncedSearch] = useState(searchParams.get('search') || '');
   const [category, setCategory] = useState(searchParams.get('category') || 'all');
-  const [sort, setSort] = useState(searchParams.get('sort') || 'newest');
+  const [sort, setSort] = useState<'price_asc' | 'price_desc'>(initialSort);
 
   const [services, setServices] = useState<SalonService[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ export function BrowseServicesClient() {
     const params = new URLSearchParams();
     if (debouncedSearch) params.set('search', debouncedSearch);
     if (category && category !== 'all') params.set('category', category);
-    if (sort && sort !== 'newest') params.set('sort', sort);
+    if (sort && sort !== 'price_asc') params.set('sort', sort);
     const qs = params.toString();
     router.replace(qs ? `/services?${qs}` : '/services', { scroll: false });
   }, [debouncedSearch, category, sort, router]);
@@ -65,7 +66,7 @@ export function BrowseServicesClient() {
     setSearch('');
     setDebouncedSearch('');
     setCategory('all');
-    setSort('newest');
+    setSort('price_asc');
   }
 
   return (
@@ -95,7 +96,7 @@ export function BrowseServicesClient() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by service name..."
-                className="w-full border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-4 text-sm text-[#16261F] placeholder:text-[#6D7B74] focus:border-[#1E3A2F] focus:outline-none"
+                className="w-full border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-4 text-sm text-[#16261F] placeholder:text-[#6D7B74] transition-colors focus:border-[#1E3A2F] focus:outline-none focus:ring-2 focus:ring-[#B5893D]/40 focus-visible:outline-none"
               />
             </div>
 
@@ -111,7 +112,7 @@ export function BrowseServicesClient() {
                 id="browse-category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-8 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
+                className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-8 text-sm text-[#16261F] transition-colors focus:border-[#1E3A2F] focus:outline-none focus:ring-2 focus:ring-[#B5893D]/40 focus-visible:outline-none"
               >
                 <option value="all">All Categories</option>
                 {SERVICE_CATEGORIES.map((cat) => (
@@ -133,10 +134,9 @@ export function BrowseServicesClient() {
               <select
                 id="browse-sort"
                 value={sort}
-                onChange={(e) => setSort(e.target.value)}
-                className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-8 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
+                onChange={(e) => setSort(e.target.value as 'price_asc' | 'price_desc')}
+                className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3.5 pl-11 pr-8 text-sm text-[#16261F] transition-colors focus:border-[#1E3A2F] focus:outline-none focus:ring-2 focus:ring-[#B5893D]/40 focus-visible:outline-none"
               >
-                <option value="newest">Sort: Featured</option>
                 <option value="price_asc">Price: Low to High</option>
                 <option value="price_desc">Price: High to Low</option>
               </select>
@@ -181,7 +181,7 @@ export function BrowseServicesClient() {
               ? 'Loading treatments...'
               : `${services.length} Active ${services.length === 1 ? 'Service' : 'Services'}`}
           </p>
-          {(search || category !== 'all' || sort !== 'newest') && (
+          {(search || category !== 'all' || sort !== 'price_asc') && (
             <button
               type="button"
               onClick={resetFilters}

@@ -20,32 +20,29 @@ import { apiRequest } from '@/lib/api';
 import { CATEGORY_DESCRIPTIONS, SALON_INFO, SERVICE_CATEGORIES } from '@/lib/constants';
 import type { CategorySummary, SalonService } from '@/types';
 
-const LEFT_WING_FALLBACK = [
-  { id: '', serviceName: 'Precision Architectural Cut', duration: 60, price: 85, category: 'Haircut & Styling' },
-  { id: '', serviceName: 'Dimensional Balayage', duration: 150, price: 210, category: 'Hair Coloring' },
-  { id: '', serviceName: 'Silk Keratin Restoration', duration: 75, price: 135, category: 'Hair Treatment' },
-];
-
-const RIGHT_WING_FALLBACK = [
-  { id: '', serviceName: 'Sculpting LED Glow Facial', duration: 75, price: 145, category: 'Facial & Skincare' },
-  { id: '', serviceName: 'Editorial Event Makeup', duration: 60, price: 120, category: 'Makeup' },
-  { id: '', serviceName: 'Warm Basalt Spa Massage', duration: 90, price: 160, category: 'Spa & Massage' },
-];
+let cachedHomeServices: SalonService[] | null = null;
+let cachedHomeCategories: CategorySummary[] | null = null;
 
 export function HomeClient() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const [featuredServices, setFeaturedServices] = useState<SalonService[]>([]);
-  const [categories, setCategories] = useState<CategorySummary[]>(
-    SERVICE_CATEGORIES.map((name) => ({ name, count: 0, minPrice: null }))
+  const [featuredServices, setFeaturedServices] = useState<SalonService[]>(
+    () => cachedHomeServices ?? []
   );
-  const [loadingServices, setLoadingServices] = useState(true);
+  const [categories, setCategories] = useState<CategorySummary[]>(
+    () =>
+      cachedHomeCategories ??
+      SERVICE_CATEGORIES.map((name) => ({ name, count: 0, minPrice: null }))
+  );
+  const [loadingServices, setLoadingServices] = useState(() => cachedHomeServices === null);
   const [servicesError, setServicesError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
     async function loadHomeData() {
-      setLoadingServices(true);
+      if (!cachedHomeServices) {
+        setLoadingServices(true);
+      }
       setServicesError(null);
       try {
         const [servicesRes, categoriesRes] = await Promise.all([
@@ -53,17 +50,22 @@ export function HomeClient() {
           apiRequest<{ success: boolean; categories: CategorySummary[] }>('/api/services/categories'),
         ]);
         if (!active) return;
-        setFeaturedServices(servicesRes.services || []);
+        const freshServices = servicesRes.services || [];
+        cachedHomeServices = freshServices;
+        setFeaturedServices(freshServices);
         if (categoriesRes.categories?.length) {
+          cachedHomeCategories = categoriesRes.categories;
           setCategories(categoriesRes.categories);
         }
       } catch (err) {
         if (!active) return;
-        setServicesError(
-          err instanceof Error
-            ? err.message
-            : 'Unable to load salon services right now. Check server connectivity.'
-        );
+        if (!cachedHomeServices) {
+          setServicesError(
+            err instanceof Error
+              ? err.message
+              : 'Unable to load salon services right now. Check server connectivity.'
+          );
+        }
       } finally {
         if (active) setLoadingServices(false);
       }
@@ -84,15 +86,8 @@ export function HomeClient() {
     }
   }
 
-  const hairWingItems =
-    featuredServices.filter((s) => s.category.startsWith('Hair')).slice(0, 3).length > 0
-      ? featuredServices.filter((s) => s.category.startsWith('Hair')).slice(0, 3)
-      : LEFT_WING_FALLBACK;
-
-  const spaWingItems =
-    featuredServices.filter((s) => !s.category.startsWith('Hair')).slice(0, 3).length > 0
-      ? featuredServices.filter((s) => !s.category.startsWith('Hair')).slice(0, 3)
-      : RIGHT_WING_FALLBACK;
+  const hairWingItems = featuredServices.filter((s) => s.category.startsWith('Hair')).slice(0, 3);
+  const spaWingItems = featuredServices.filter((s) => !s.category.startsWith('Hair')).slice(0, 3);
 
   return (
     <div className="terrace-ground">
@@ -111,23 +106,30 @@ export function HomeClient() {
             </div>
 
             <div className="mt-8 space-y-1">
-              {hairWingItems.map((item, idx) => (
-                <Link
-                  key={`${item.serviceName}-${idx}`}
-                  href={item.id ? `/services/${item.id}` : `/services?category=${encodeURIComponent(item.category)}`}
-                  className="group block border-t border-[#B5893D]/35 py-4 transition-colors hover:border-[#E8CF9C]"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <strong className="text-sm font-semibold text-[#FBF9F5] group-hover:text-[#E8CF9C]">
-                      {item.serviceName}
-                    </strong>
-                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-[#D6BC88]" aria-hidden="true" />
-                  </div>
-                  <span className="mt-1 block font-mono text-xs tabular-nums text-[#D6BC88]">
-                    {item.duration} MIN · ${Number(item.price).toFixed(0)}
-                  </span>
-                </Link>
-              ))}
+              {loadingServices && hairWingItems.length === 0
+                ? Array.from({ length: 3 }).map((_, idx) => (
+                    <div key={idx} className="animate-pulse border-t border-[#B5893D]/35 py-4">
+                      <div className="h-4 w-3/4 bg-white/15" />
+                      <div className="mt-2 h-3 w-24 bg-[#D6BC88]/25" />
+                    </div>
+                  ))
+                : hairWingItems.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={`/services/${item.id}`}
+                      className="group block border-t border-[#B5893D]/35 py-4 transition-colors hover:border-[#E8CF9C]"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <strong className="text-sm font-semibold text-[#FBF9F5] group-hover:text-[#E8CF9C]">
+                          {item.serviceName}
+                        </strong>
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-[#D6BC88]" aria-hidden="true" />
+                      </div>
+                      <span className="mt-1 block font-mono text-xs tabular-nums text-[#D6BC88]">
+                        {item.duration} MIN · ${Number(item.price).toFixed(0)}
+                      </span>
+                    </Link>
+                  ))}
             </div>
           </aside>
 
@@ -175,15 +177,15 @@ export function HomeClient() {
               <label htmlFor="hero-service-search" className="sr-only">
                 Search salon services by name
               </label>
-              <div className="relative flex flex-1 items-center border border-[#C9BFA9] bg-[#FBF9F5]">
-                <Search className="pointer-events-none ml-3.5 h-4 w-4 text-[#B5893D]" aria-hidden="true" />
+              <div className="relative flex flex-1 items-center border border-[#C9BFA9] bg-[#FBF9F5] transition-colors focus-within:border-[#1E3A2F] focus-within:ring-2 focus-within:ring-[#B5893D]/45">
+                <Search className="pointer-events-none ml-3.5 h-4 w-4 shrink-0 text-[#B5893D]" aria-hidden="true" />
                 <input
                   id="hero-service-search"
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search cuts, balayage, facials..."
-                  className="w-full bg-transparent px-3 py-3.5 text-sm text-[#16261F] placeholder:text-[#6D7B74] focus:outline-none"
+                  className="w-full bg-transparent px-3 py-3.5 text-sm text-[#16261F] placeholder:text-[#6D7B74] outline-none focus:outline-none focus-visible:outline-none"
                 />
               </div>
               <button
@@ -208,23 +210,30 @@ export function HomeClient() {
             </div>
 
             <div className="mt-8 space-y-1">
-              {spaWingItems.map((item, idx) => (
-                <Link
-                  key={`${item.serviceName}-${idx}`}
-                  href={item.id ? `/services/${item.id}` : `/services?category=${encodeURIComponent(item.category)}`}
-                  className="group block border-t border-[#B5893D]/35 py-4 transition-colors hover:border-[#E8CF9C]"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <strong className="text-sm font-semibold text-[#FBF9F5] group-hover:text-[#E8CF9C]">
-                      {item.serviceName}
-                    </strong>
-                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-[#D6BC88]" aria-hidden="true" />
-                  </div>
-                  <span className="mt-1 block font-mono text-xs tabular-nums text-[#D6BC88]">
-                    {item.duration} MIN · ${Number(item.price).toFixed(0)}
-                  </span>
-                </Link>
-              ))}
+              {loadingServices && spaWingItems.length === 0
+                ? Array.from({ length: 3 }).map((_, idx) => (
+                    <div key={idx} className="animate-pulse border-t border-[#B5893D]/35 py-4">
+                      <div className="h-4 w-3/4 bg-white/15" />
+                      <div className="mt-2 h-3 w-24 bg-[#D6BC88]/25" />
+                    </div>
+                  ))
+                : spaWingItems.map((item) => (
+                    <Link
+                      key={item.id}
+                      href={`/services/${item.id}`}
+                      className="group block border-t border-[#B5893D]/35 py-4 transition-colors hover:border-[#E8CF9C]"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <strong className="text-sm font-semibold text-[#FBF9F5] group-hover:text-[#E8CF9C]">
+                          {item.serviceName}
+                        </strong>
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-[#D6BC88]" aria-hidden="true" />
+                      </div>
+                      <span className="mt-1 block font-mono text-xs tabular-nums text-[#D6BC88]">
+                        {item.duration} MIN · ${Number(item.price).toFixed(0)}
+                      </span>
+                    </Link>
+                  ))}
             </div>
           </aside>
         </div>

@@ -15,7 +15,7 @@ export default function AdminManageServicesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
-  const [sort, setSort] = useState('newest');
+  const [sort, setSort] = useState<'price_asc' | 'price_desc'>('price_asc');
   const [deleteTarget, setDeleteTarget] = useState<SalonService | null>(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -128,11 +128,10 @@ export default function AdminManageServicesPage() {
           <ArrowDownUp className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1E3A2F]" aria-hidden="true" />
           <select
             value={sort}
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => setSort(e.target.value as 'price_asc' | 'price_desc')}
             aria-label="Sort services by price"
-            className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3 pl-10 pr-8 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none"
+            className="w-full cursor-pointer appearance-none border border-[#C9BFA9] bg-[#FBF9F5] py-3 pl-10 pr-8 text-sm text-[#16261F] focus:border-[#1E3A2F] focus:outline-none focus:ring-2 focus:ring-[#B5893D]/40 focus-visible:outline-none"
           >
-            <option value="newest">Sort: Newest</option>
             <option value="price_asc">Price: Low to High</option>
             <option value="price_desc">Price: High to Low</option>
           </select>

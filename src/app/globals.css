@@ -56,13 +56,15 @@ select {
   caret-color: #1E3A2F;
 }
 
-a {
-  text-underline-offset: 4px;
-}
+@layer base {
+  a {
+    text-underline-offset: 4px;
+  }
 
-:focus-visible {
-  outline: 2px solid #B5893D;
-  outline-offset: 2px;
+  :focus-visible {
+    outline: 2px solid #B5893D;
+    outline-offset: 2px;
+  }
 }
 
 /* Custom limestone & gilt scrollbar */
