@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   Clock,
   CreditCard,
-  PlusCircle,
   Sparkles,
   Users,
 } from 'lucide-react';
@@ -101,23 +100,13 @@ export default function AdminOverviewPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div>
-          <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
-            Admin Studio Overview
-          </h1>
-          <p className="mt-1.5 text-sm text-[#495A52]">
-            Monitor registered customers, active salon services, appointment confirmations, and Stripe-verified transactions.
-          </p>
-        </div>
-
-        <Link
-          href="/dashboard/admin/services/new"
-          className="btn-emerald inline-flex w-fit items-center gap-2 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
-        >
-          <PlusCircle className="h-4 w-4" aria-hidden="true" />
-          Add New Service
-        </Link>
+      <div>
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-[#1E3A2F]">
+          Admin Studio Overview
+        </h1>
+        <p className="mt-1.5 text-sm text-[#495A52]">
+          Monitor registered customers, active salon services, appointment confirmations, and Stripe-verified transactions.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">

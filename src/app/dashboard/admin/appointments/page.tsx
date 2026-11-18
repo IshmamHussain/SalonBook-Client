@@ -140,6 +140,14 @@ export default function AdminManageAppointmentsPage() {
                     <td className="px-5 py-4">
                       <p className="font-medium text-[#16261F]">{appt.serviceName}</p>
                       <p className="text-xs text-[#6D7B74]">{appt.serviceCategory}</p>
+                      {appt.message && (
+                        <p
+                          title={appt.message}
+                          className="mt-1 max-w-[240px] truncate text-xs italic text-[#495A52]"
+                        >
+                          &ldquo;{appt.message}&rdquo;
+                        </p>
+                      )}
                     </td>
                     <td className="px-5 py-4 font-mono text-xs tabular-nums">
                       <div className="text-[#16261F]">{appt.appointmentDate}</div>

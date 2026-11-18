@@ -29,8 +29,9 @@ function PaymentSuccessContent() {
   const [transaction, setTransaction] = useState<VerifiedTransaction | null>(null);
 
   useEffect(() => {
-    if (authLoading || !user || !sessionId) {
-      if (!authLoading && !sessionId) setChecking(false);
+    if (authLoading) return;
+    if (!user || !sessionId) {
+      setChecking(false);
       return;
     }
 
