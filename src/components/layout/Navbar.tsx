@@ -61,9 +61,11 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
-          <Link href="/" className={navLinkClass(pathname === '/')}>
-            Home
-          </Link>
+          {!user && (
+            <Link href="/" className={navLinkClass(pathname === '/')}>
+              Home
+            </Link>
+          )}
           <Link href="/services" className={navLinkClass(pathname.startsWith('/services'))}>
             Browse Services
           </Link>
@@ -175,9 +177,11 @@ export function Navbar() {
       {mobileOpen && (
         <div className="border-t border-white/12 bg-[#0E141C] px-4 py-5 md:hidden">
           <div className="flex flex-col gap-3">
-            <Link href="/" className="py-2 text-sm font-semibold text-[#F4F6F8]">
-              Home
-            </Link>
+            {!user && (
+              <Link href="/" className="py-2 text-sm font-semibold text-[#F4F6F8]">
+                Home
+              </Link>
+            )}
             <Link href="/services" className="py-2 text-sm font-semibold text-[#F4F6F8]">
               Browse Services
             </Link>
