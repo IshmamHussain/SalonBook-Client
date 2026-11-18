@@ -21,12 +21,44 @@ import { ApiError, apiRequest } from '@/lib/api';
 import { PREDEFINED_TIME_SLOTS } from '@/lib/constants';
 import type { SalonService } from '@/types';
 
-function getTodayDateString() {
-  const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const dd = String(now.getDate()).padStart(2, '0');
+function formatLocalDate(date: Date) {
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
   return `${yyyy}-${mm}-${dd}`;
+}
+
+function getTodayDateString() {
+  return formatLocalDate(new Date());
+}
+
+function parseSlotMinutes(slot: string): number {
+  const match = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(slot.trim());
+  if (!match) return 0;
+  let hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  const period = match[3].toUpperCase();
+  if (period === 'PM' && hours !== 12) hours += 12;
+  if (period === 'AM' && hours === 12) hours = 0;
+  return hours * 60 + minutes;
+}
+
+function isSlotInPast(dateStr: string, slot: string): boolean {
+  const now = new Date();
+  const todayStr = formatLocalDate(now);
+  if (dateStr < todayStr) return true;
+  if (dateStr > todayStr) return false;
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  return parseSlotMinutes(slot) <= nowMinutes;
+}
+
+function getDefaultAppointmentDate(): string {
+  const todayStr = getTodayDateString();
+  const hasUpcomingToday = PREDEFINED_TIME_SLOTS.some((slot) => !isSlotInPast(todayStr, slot));
+  if (hasUpcomingToday) return todayStr;
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return formatLocalDate(tomorrow);
 }
 
 export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
@@ -38,7 +70,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
   const [error, setError] = useState<string | null>(null);
 
   const [showBookingForm, setShowBookingForm] = useState(false);
-  const [appointmentDate, setAppointmentDate] = useState(getTodayDateString());
+  const [appointmentDate, setAppointmentDate] = useState(getDefaultAppointmentDate);
   const [timeSlot, setTimeSlot] = useState<string>('');
   const [message, setMessage] = useState('');
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
@@ -103,7 +135,9 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
         if (!active) return;
         const taken = res.bookedSlots || [];
         setBookedSlots(taken);
-        setTimeSlot((prev) => (taken.includes(prev) ? '' : prev));
+        setTimeSlot((prev) =>
+          !prev || taken.includes(prev) || isSlotInPast(appointmentDate, prev) ? '' : prev
+        );
       } catch {
         if (active) setBookedSlots([]);
       } finally {
@@ -128,6 +162,11 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
       toast.error('Please select an available time slot.');
       return;
     }
+    if (isSlotInPast(appointmentDate, timeSlot)) {
+      toast.error('That time slot has already passed. Please choose an upcoming slot.');
+      setTimeSlot('');
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -139,6 +178,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
           appointmentDate,
           timeSlot,
           message: message.trim(),
+          timezoneOffsetMinutes: new Date().getTimezoneOffset(),
         }),
       });
       toast.success(res.message || 'Appointment request submitted! Awaiting salon confirmation.');
@@ -330,16 +370,25 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                       <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-4">
                         {PREDEFINED_TIME_SLOTS.map((slot) => {
                           const isTaken = bookedSlots.includes(slot);
-                          const isSelected = timeSlot === slot;
+                          const isPast = isSlotInPast(appointmentDate, slot);
+                          const isUnavailable = isTaken || isPast;
+                          const isSelected = timeSlot === slot && !isUnavailable;
                           return (
                             <button
                               key={slot}
                               type="button"
-                              disabled={isTaken}
+                              disabled={isUnavailable}
+                              title={
+                                isTaken
+                                  ? 'Already booked'
+                                  : isPast
+                                  ? 'Time slot has already passed'
+                                  : `Select ${slot}`
+                              }
                               onClick={() => setTimeSlot(slot)}
                               aria-pressed={isSelected}
                               className={`border px-3 py-2.5 font-mono text-xs tabular-nums transition-colors ${
-                                isTaken
+                                isUnavailable
                                   ? 'cursor-not-allowed border-[#DCD3C2] bg-[#EAE2D3] text-[#8B948E] line-through'
                                   : isSelected
                                   ? 'cursor-pointer border-[#B5893D] bg-[#1E3A2F] font-semibold text-[#FBF9F5]'
@@ -352,7 +401,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
                         })}
                       </div>
                       <p className="mt-2 text-xs text-[#6D7B74]">
-                        Crossed-out time slots are already reserved for this date.
+                        Crossed-out time slots are already reserved or have already passed for this date.
                       </p>
                     </div>
 
