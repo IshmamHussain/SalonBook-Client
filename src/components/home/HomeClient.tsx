@@ -144,11 +144,11 @@ export function HomeClient() {
 
             {/* Gilt-Framed Arched Salon Vista */}
             <div className="my-7 w-full max-w-[420px] rounded-t-[210px] border-2 border-[#B5893D] bg-[#FBF9F5] p-2.5 shadow-[0_24px_50px_-24px_rgba(22,38,31,0.35)]">
-              <div className="relative h-[300px] w-full overflow-hidden rounded-t-[200px] sm:h-[340px]">
+              <div className="relative h-[320px] w-full overflow-hidden rounded-t-[200px] sm:h-[380px]">
                 <img
-                  src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&q=85"
-                  alt="Sunlit salon sanctuary treatment suite at SalonBook"
-                  className="h-full w-full object-cover"
+                  src="/hero-salon.jpg"
+                  alt="Master hair stylist finishing glossy sculpted waves in the sunlit SalonBook salon"
+                  className="h-full w-full object-cover object-top"
                 />
                 <div
                   aria-hidden="true"
