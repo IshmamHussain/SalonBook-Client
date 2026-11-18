@@ -1,10 +1,10 @@
 # SalonBook — Client (Next.js App Router)
 
-Frontend web application for **SalonBook**, a role-based salon appointment booking platform styled in a sunlit French Maison terrace aesthetic with an interactive Three.js 3D botanical elixir flacon, service search/filtering/sorting, Better Auth authentication, Stripe Checkout integration, and dedicated Customer & Admin dashboards.
+Frontend web application for **SalonBook**, a role-based salon appointment booking platform styled in a sunlit French Maison terrace aesthetic with service search/filtering/sorting, Better Auth authentication, Stripe Checkout integration, and dedicated Customer & Admin dashboards.
 
 ## Important Features
 
-- **Sunlit Maison Storefront & Interactive 3D Flacon**: Architectural three-column terrace hero with arched salon photography vista and an interactive Three.js PBR crystal & gilt-bronze elixir flacon with `prefers-reduced-motion` and WebGL fallback support.
+- **Sunlit Maison Storefront**: Architectural three-column terrace hero with arched salon photography vista, featured active services, 7 salon categories, and a transparent 3-step booking ritual section.
 - **Public Salon Discovery**: Home page with Featured Active Services (6+), 7 Salon Service Categories, and full Browse Services page supporting live search by service name, category filtering, and price sorting.
 - **Protected Service Details & Conflict-Free Booking**: Dynamic `/services/[id]` route enforcing authentication, real-time booked-slot availability, predefined time slots, and customer-only booking.
 - **Better Auth Authentication**: Email/Password registration (with password complexity checklist and ImgBB upload or URL avatar) + Google OAuth login + instant Navbar state updates and role-based redirects.
@@ -17,7 +17,6 @@ Frontend web application for **SalonBook**, a role-based salon appointment booki
 - Next.js 16 (App Router) & React 19
 - TypeScript
 - Tailwind CSS v4
-- Three.js, React Three Fiber (`@react-three/fiber`), `@react-three/drei`
 - Motion (`motion/react`)
 - Better Auth React Client (`better-auth/react`)
 - Lucide React Icons & Sonner Toasts

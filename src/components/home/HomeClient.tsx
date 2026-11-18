@@ -5,30 +5,20 @@ import {
   ArrowUpRight,
   CalendarCheck2,
   CheckCircle2,
+  Clock,
   CreditCard,
+  MapPin,
   Search,
-  Sparkles,
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { ServiceCard } from '@/components/services/ServiceCard';
-import type { AtelierMood } from '@/components/three/SalonAtelier3D';
 import { ServiceGridSkeleton } from '@/components/ui/LoadingState';
 import { apiRequest } from '@/lib/api';
-import { CATEGORY_DESCRIPTIONS, SERVICE_CATEGORIES } from '@/lib/constants';
+import { CATEGORY_DESCRIPTIONS, SALON_INFO, SERVICE_CATEGORIES } from '@/lib/constants';
 import type { CategorySummary, SalonService } from '@/types';
-
-const SalonAtelier3D = dynamic(() => import('@/components/three/SalonAtelier3D'), {
-  ssr: false,
-  loading: () => (
-    <div className="maison-card flex h-[360px] w-full items-center justify-center bg-[#EDE6D8] font-mono text-xs uppercase tracking-[0.16em] text-[#495A52] sm:h-[420px]">
-      Preparing 3D Maison Flacon...
-    </div>
-  ),
-});
 
 const LEFT_WING_FALLBACK = [
   { id: '', serviceName: 'Precision Architectural Cut', duration: 60, price: 85, category: 'Haircut & Styling' },
@@ -51,7 +41,6 @@ export function HomeClient() {
   );
   const [loadingServices, setLoadingServices] = useState(true);
   const [servicesError, setServicesError] = useState<string | null>(null);
-  const [atelierMood, setAtelierMood] = useState<AtelierMood>('terrace');
 
   useEffect(() => {
     let active = true;
@@ -425,35 +414,39 @@ export function HomeClient() {
           </div>
 
           <div className="space-y-4 lg:col-span-6">
-            <SalonAtelier3D mood={atelierMood} />
-
-            <div className="maison-card flex flex-col justify-between gap-4 p-5 sm:flex-row sm:items-center">
-              <div className="flex items-center gap-2.5 text-sm font-medium text-[#1E3A2F]">
-                <Sparkles className="h-4 w-4 text-[#B5893D]" aria-hidden="true" />
-                <span>Terrace Light Study</span>
+            <div className="maison-card overflow-hidden p-3">
+              <div className="relative h-[320px] w-full overflow-hidden border border-[#E2D9C8] bg-[#EAE2D3] sm:h-[360px]">
+                <img
+                  src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=85"
+                  alt="SalonBook daylight studio interior and styling chairs"
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
               </div>
-              <div className="flex flex-wrap gap-2" role="group" aria-label="Select 3D studio light study">
-                {(
-                  [
-                    { id: 'terrace', label: 'Morning Terrace' },
-                    { id: 'gilt', label: 'Golden Gilt' },
-                    { id: 'bosquet', label: 'Emerald Bosquet' },
-                  ] as const
-                ).map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => setAtelierMood(option.id)}
-                    aria-pressed={atelierMood === option.id}
-                    className={`cursor-pointer border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors ${
-                      atelierMood === option.id
-                        ? 'border-[#B5893D] bg-[#1E3A2F] font-semibold text-[#FBF9F5]'
-                        : 'border-[#D5C9B4] bg-[#F4EFE6] text-[#495A52] hover:border-[#1E3A2F] hover:text-[#1E3A2F]'
-                    }`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
+              <div className="mt-3 grid grid-cols-1 gap-4 border border-[#E2D9C8] bg-[#F4EFE6] p-5 sm:grid-cols-2">
+                <div className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#B5893D]" aria-hidden="true" />
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6D7B74]">
+                      Visit the Salon
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-[#16261F]">{SALON_INFO.address}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[#B5893D]" aria-hidden="true" />
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#6D7B74]">
+                      Studio Hours
+                    </p>
+                    <p className="mt-1 font-mono text-xs tabular-nums text-[#16261F]">
+                      Mon–Fri · 09:00 AM – 08:00 PM
+                    </p>
+                    <p className="mt-0.5 font-mono text-xs tabular-nums text-[#495A52]">
+                      Sat–Sun · 09:30 AM – 07:00 PM
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
