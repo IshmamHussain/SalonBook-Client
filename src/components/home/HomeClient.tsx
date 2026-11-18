@@ -16,50 +16,59 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { ServiceCard } from '@/components/services/ServiceCard';
 import { ServiceGridSkeleton } from '@/components/ui/LoadingState';
-import { apiRequest } from '@/lib/api';
+import { apiRequest, getCachedResponse } from '@/lib/api';
 import { CATEGORY_DESCRIPTIONS, SALON_INFO, SERVICE_CATEGORIES } from '@/lib/constants';
 import type { CategorySummary, SalonService } from '@/types';
 
-let cachedHomeServices: SalonService[] | null = null;
-let cachedHomeCategories: CategorySummary[] | null = null;
+const HOME_SERVICES_PATH = '/api/services?limit=6';
+const HOME_CATEGORIES_PATH = '/api/services/categories';
 
 export function HomeClient() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const initialServices =
+    getCachedResponse<{ success: boolean; services: SalonService[] }>(HOME_SERVICES_PATH)
+      ?.services ?? null;
+  const initialCategories =
+    getCachedResponse<{ success: boolean; categories: CategorySummary[] }>(HOME_CATEGORIES_PATH)
+      ?.categories ?? null;
+
   const [featuredServices, setFeaturedServices] = useState<SalonService[]>(
-    () => cachedHomeServices ?? []
+    () => initialServices ?? []
   );
   const [categories, setCategories] = useState<CategorySummary[]>(
     () =>
-      cachedHomeCategories ??
+      initialCategories ??
       SERVICE_CATEGORIES.map((name) => ({ name, count: 0, minPrice: null }))
   );
-  const [loadingServices, setLoadingServices] = useState(() => cachedHomeServices === null);
+  const [loadingServices, setLoadingServices] = useState(() => initialServices === null);
   const [servicesError, setServicesError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
     async function loadHomeData() {
-      if (!cachedHomeServices) {
+      const hasCached = getCachedResponse(HOME_SERVICES_PATH) !== null;
+      if (!hasCached) {
         setLoadingServices(true);
       }
       setServicesError(null);
       try {
         const [servicesRes, categoriesRes] = await Promise.all([
-          apiRequest<{ success: boolean; services: SalonService[] }>('/api/services?limit=6'),
-          apiRequest<{ success: boolean; categories: CategorySummary[] }>('/api/services/categories'),
+          apiRequest<{ success: boolean; services: SalonService[] }>(HOME_SERVICES_PATH, {
+            cacheTtlMs: 30_000,
+          }),
+          apiRequest<{ success: boolean; categories: CategorySummary[] }>(HOME_CATEGORIES_PATH, {
+            cacheTtlMs: 30_000,
+          }),
         ]);
         if (!active) return;
-        const freshServices = servicesRes.services || [];
-        cachedHomeServices = freshServices;
-        setFeaturedServices(freshServices);
+        setFeaturedServices(servicesRes.services || []);
         if (categoriesRes.categories?.length) {
-          cachedHomeCategories = categoriesRes.categories;
           setCategories(categoriesRes.categories);
         }
       } catch (err) {
         if (!active) return;
-        if (!cachedHomeServices) {
+        if (!hasCached) {
           setServicesError(
             err instanceof Error
               ? err.message
@@ -366,7 +375,7 @@ export function HomeClient() {
         </div>
       </section>
 
-      {/* Additional Custom Section: The 3-Step Salon Ritual & 3D Botanical Elixir Flacon */}
+      {/* Additional Custom Section: The 3-Step Salon Booking Ritual & Studio Concierge */}
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
           <div className="lg:col-span-6">

@@ -2,52 +2,83 @@
 
 import { ArrowDownUp, RotateCcw, Search, SlidersHorizontal } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ServiceCard } from '@/components/services/ServiceCard';
 import { ServiceGridSkeleton } from '@/components/ui/LoadingState';
-import { apiRequest } from '@/lib/api';
+import { apiRequest, getCachedResponse } from '@/lib/api';
 import { SERVICE_CATEGORIES } from '@/lib/constants';
 import type { SalonService } from '@/types';
+
+function buildServicesPath(search: string, category: string, sort: 'price_asc' | 'price_desc') {
+  const params = new URLSearchParams();
+  if (search) params.set('search', search);
+  if (category && category !== 'all') params.set('category', category);
+  if (sort) params.set('sort', sort);
+  const queryString = params.toString();
+  return `/api/services${queryString ? `?${queryString}` : ''}`;
+}
 
 export function BrowseServicesClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const initialSearch = (searchParams.get('search') || '').trim();
+  const initialCategory = searchParams.get('category') || 'all';
   const initialSort = searchParams.get('sort') === 'price_desc' ? 'price_desc' : 'price_asc';
+  const initialPath = buildServicesPath(initialSearch, initialCategory, initialSort);
+  const initialCached = getCachedResponse<{ success: boolean; services: SalonService[] }>(initialPath);
+
   const [search, setSearch] = useState(searchParams.get('search') || '');
-  const [debouncedSearch, setDebouncedSearch] = useState(searchParams.get('search') || '');
-  const [category, setCategory] = useState(searchParams.get('category') || 'all');
+  const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
+  const [category, setCategory] = useState(initialCategory);
   const [sort, setSort] = useState<'price_asc' | 'price_desc'>(initialSort);
 
-  const [services, setServices] = useState<SalonService[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState<SalonService[]>(() => initialCached?.services || []);
+  const [loading, setLoading] = useState(() => !initialCached);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(search.trim()), 260);
+    const trimmed = search.trim();
+    if (trimmed === debouncedSearch) return;
+    const timer = setTimeout(() => setDebouncedSearch(trimmed), 240);
     return () => clearTimeout(timer);
-  }, [search]);
+  }, [search, debouncedSearch]);
 
-  const fetchServices = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams();
-      if (debouncedSearch) params.set('search', debouncedSearch);
-      if (category && category !== 'all') params.set('category', category);
-      if (sort) params.set('sort', sort);
+  const requestPath = useMemo(
+    () => buildServicesPath(debouncedSearch, category, sort),
+    [debouncedSearch, category, sort]
+  );
 
-      const queryString = params.toString();
-      const res = await apiRequest<{ success: boolean; services: SalonService[] }>(
-        `/api/services${queryString ? `?${queryString}` : ''}`
-      );
-      setServices(res.services || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch salon services.');
-    } finally {
-      setLoading(false);
-    }
-  }, [debouncedSearch, category, sort]);
+  const fetchServices = useCallback(
+    async (forceRefresh = false) => {
+      const cached = !forceRefresh
+        ? getCachedResponse<{ success: boolean; services: SalonService[] }>(requestPath)
+        : null;
+
+      if (cached) {
+        setServices(cached.services || []);
+        setLoading(false);
+      } else {
+        setLoading(true);
+      }
+      setError(null);
+
+      try {
+        const res = await apiRequest<{ success: boolean; services: SalonService[] }>(requestPath, {
+          cacheTtlMs: 30_000,
+          forceRefresh,
+        });
+        setServices(res.services || []);
+      } catch (err) {
+        if (!cached) {
+          setError(err instanceof Error ? err.message : 'Failed to fetch salon services.');
+        }
+      } finally {
+        setLoading(false);
+      }
+    },
+    [requestPath]
+  );
 
   useEffect(() => {
     fetchServices();
@@ -200,7 +231,7 @@ export function BrowseServicesClient() {
             <p className="text-sm font-medium text-rose-800">{error}</p>
             <button
               type="button"
-              onClick={fetchServices}
+              onClick={() => fetchServices(true)}
               className="btn-emerald mt-4 cursor-pointer px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em]"
             >
               Retry

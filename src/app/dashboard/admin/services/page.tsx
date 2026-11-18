@@ -15,16 +15,24 @@ export default function AdminManageServicesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [sort, setSort] = useState<'price_asc' | 'price_desc'>('price_asc');
   const [deleteTarget, setDeleteTarget] = useState<SalonService | null>(null);
   const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const trimmed = search.trim();
+    if (trimmed === debouncedSearch) return;
+    const t = setTimeout(() => setDebouncedSearch(trimmed), 220);
+    return () => clearTimeout(t);
+  }, [search, debouncedSearch]);
 
   const loadServices = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const params = new URLSearchParams();
-      if (search.trim()) params.set('search', search.trim());
+      if (debouncedSearch) params.set('search', debouncedSearch);
       if (sort) params.set('sort', sort);
       const res = await apiRequest<{ success: boolean; services: SalonService[] }>(
         `/api/admin/services?${params.toString()}`,
@@ -36,11 +44,10 @@ export default function AdminManageServicesPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, sort]);
+  }, [debouncedSearch, sort]);
 
   useEffect(() => {
-    const t = setTimeout(loadServices, 220);
-    return () => clearTimeout(t);
+    loadServices();
   }, [loadServices]);
 
   async function handleToggleStatus(service: SalonService) {

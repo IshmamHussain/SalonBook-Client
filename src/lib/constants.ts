@@ -1,5 +1,13 @@
-export const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
-export const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/+$/, '');
+function normalizeBaseUrl(raw: string | undefined, fallback: string): string {
+  const value = (raw || fallback).trim().replace(/\/+$/, '');
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+  return `https://${value}`;
+}
+
+export const API_URL = normalizeBaseUrl(process.env.NEXT_PUBLIC_API_URL, 'http://localhost:5000');
+export const APP_URL = normalizeBaseUrl(process.env.NEXT_PUBLIC_APP_URL, 'http://localhost:3000');
 
 export const SERVICE_CATEGORIES = [
   'Haircut & Styling',

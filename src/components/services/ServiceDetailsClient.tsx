@@ -88,7 +88,9 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
   }, [authLoading, user, serviceId, router]);
 
   useEffect(() => {
-    if (!showBookingForm || !user || !appointmentDate) return;
+    if (!user || user.role === 'admin' || !service || service.status !== 'active' || !appointmentDate) {
+      return;
+    }
     let active = true;
 
     async function loadBookedSlots() {
@@ -99,10 +101,9 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
           { auth: true }
         );
         if (!active) return;
-        setBookedSlots(res.bookedSlots || []);
-        if (res.bookedSlots?.includes(timeSlot)) {
-          setTimeSlot('');
-        }
+        const taken = res.bookedSlots || [];
+        setBookedSlots(taken);
+        setTimeSlot((prev) => (taken.includes(prev) ? '' : prev));
       } catch {
         if (active) setBookedSlots([]);
       } finally {
@@ -114,7 +115,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
     return () => {
       active = false;
     };
-  }, [showBookingForm, appointmentDate, user, timeSlot]);
+  }, [appointmentDate, user, service]);
 
   async function handleSubmitAppointment(e: React.FormEvent) {
     e.preventDefault();

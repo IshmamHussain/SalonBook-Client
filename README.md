@@ -24,8 +24,8 @@ Frontend web application for **SalonBook**, a role-based salon appointment booki
 ## Installation Instructions
 
 ```bash
-git clone <your-client-repo-url>
-cd client
+git clone https://github.com/IshmamHussain/SalonBook-Client.git
+cd SalonBook-Client
 npm install
 ```
 
