@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
-  PlusCircle,
   Sparkles,
   User,
   Users,
@@ -35,7 +34,6 @@ const CUSTOMER_NAV: NavItem[] = [
 const ADMIN_NAV: NavItem[] = [
   { label: 'Overview', href: '/dashboard/admin', icon: LayoutDashboard },
   { label: 'Manage Services', href: '/dashboard/admin/services', icon: Sparkles },
-  { label: 'Add Service', href: '/dashboard/admin/services/new', icon: PlusCircle },
   { label: 'Manage Appointments', href: '/dashboard/admin/appointments', icon: CalendarCheck },
   { label: 'Manage Users', href: '/dashboard/admin/users', icon: Users },
   { label: 'Transactions', href: '/dashboard/admin/transactions', icon: CreditCard },
@@ -114,12 +112,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const isNavActive = (href: string) => {
     if (href === '/dashboard/admin' || href === '/dashboard/customer') {
       return pathname === href;
-    }
-    if (href === '/dashboard/admin/services') {
-      return (
-        pathname === '/dashboard/admin/services' ||
-        (pathname.startsWith('/dashboard/admin/services/') && !pathname.endsWith('/new'))
-      );
     }
     return pathname === href || pathname.startsWith(`${href}/`);
   };
@@ -249,13 +241,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               {user.role === 'admin' ? 'SalonBook Admin Console' : 'SalonBook Customer Portal'}
             </span>
           </div>
-
-          <Link
-            href="/services"
-            className="btn-limestone px-3.5 py-1.5 font-mono text-xs uppercase tracking-[0.12em]"
-          >
-            Browse Services
-          </Link>
         </header>
 
         <main className="terrace-ground flex-1 p-4 sm:p-6 lg:p-8">{children}</main>

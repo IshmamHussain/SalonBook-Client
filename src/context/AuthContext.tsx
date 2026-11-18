@@ -45,6 +45,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshAuth();
   }, [refreshAuth]);
 
+  useEffect(() => {
+    function handleUserBlocked(event: Event) {
+      const detail = (event as CustomEvent<string>).detail;
+      setAuthToken(null);
+      setUser(null);
+      setBlockedMessage(detail || 'Your account has been blocked by the salon administrator.');
+    }
+    window.addEventListener('salonbook:user-blocked', handleUserBlocked);
+    return () => window.removeEventListener('salonbook:user-blocked', handleUserBlocked);
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await authClient.signOut();

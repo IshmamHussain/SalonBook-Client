@@ -10,7 +10,7 @@ Frontend web application for **SalonBook**, a role-based salon appointment booki
 - **Better Auth Authentication**: Email/Password registration (with password complexity checklist and ImgBB upload or URL avatar) + Google OAuth login + instant Navbar state updates and role-based redirects.
 - **Customer Dashboard**: Overview metrics, My Appointments (cancel pending requests with confirmation dialog, view details, pay confirmed appointments via Stripe Checkout), and My Profile.
 - **Admin Dashboard**: Studio Overview metrics, Manage Services (CRUD, ImgBB file upload, Active/Inactive toggles), Manage Appointments (Confirm Pending, Cancel Pending/Confirmed), Manage Customers (Block/Unblock), Read-Only Stripe Transactions log, and My Profile.
-- **Responsive & Accessible UX**: Fully responsive across mobile, tablet, and desktop; meaningful loaders; custom error/404 screens; Sonner toast notifications (no `alert()`).
+- **Responsive & Accessible UX**: Fully responsive across mobile, tablet, and desktop; meaningful loaders; custom error/404 screens; Sonner toast notifications.
 
 ## Technology Stack
 
@@ -29,7 +29,7 @@ cd SalonBook-Client
 npm install
 ```
 
-Create a `.env.local` file in `client/` based on `.env.example`.
+Create a `.env.local` file in the project root based on `.env.example`.
 
 ## How to Run the Project Locally
 
@@ -44,7 +44,7 @@ npm start
 
 ## Required Environment Variables
 
-Configure these variable names in `.env.local` (never commit actual secrets):
+Add the following variables to `.env.local`:
 
 - `NEXT_PUBLIC_API_URL` (URL of the running SalonBook Express server)
 - `NEXT_PUBLIC_APP_URL` (Public URL of this Next.js frontend)

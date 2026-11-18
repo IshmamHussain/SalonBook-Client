@@ -93,7 +93,6 @@ export default function AdminOverviewPage() {
     {
       label: 'Total Successful Payments',
       value: overview?.totalSuccessfulPayments ?? 0,
-      sub: `$${Number(overview?.totalRevenue ?? 0).toFixed(2)} verified revenue`,
       icon: CreditCard,
       accent: 'text-teal-800',
       href: '/dashboard/admin/transactions',
@@ -135,14 +134,9 @@ export default function AdminOverviewPage() {
                 <Icon className={`h-4 w-4 ${metric.accent}`} aria-hidden="true" />
               </div>
               <div className="mt-5 flex items-end justify-between">
-                <div>
-                  <p className="font-mono text-4xl font-semibold tabular-nums text-[#1E3A2F]">
-                    {metric.value}
-                  </p>
-                  {metric.sub && (
-                    <p className="mt-1 font-mono text-xs font-medium text-teal-800">{metric.sub}</p>
-                  )}
-                </div>
+                <p className="font-mono text-4xl font-semibold tabular-nums text-[#1E3A2F]">
+                  {metric.value}
+                </p>
                 <ArrowRight
                   className="h-4 w-4 text-[#B5893D] transition-transform group-hover:translate-x-1 group-hover:text-[#1E3A2F]"
                   aria-hidden="true"

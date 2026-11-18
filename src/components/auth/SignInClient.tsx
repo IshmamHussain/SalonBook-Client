@@ -26,7 +26,7 @@ export function SignInClient() {
       if (callbackUrl && callbackUrl.startsWith('/')) {
         router.replace(callbackUrl);
       } else {
-        router.replace(user.role === 'admin' ? '/dashboard/admin' : '/dashboard/customer');
+        router.replace('/');
       }
     }
   }, [authLoading, user, callbackUrl, router]);
@@ -62,7 +62,7 @@ export function SignInClient() {
       if (callbackUrl && callbackUrl.startsWith('/')) {
         router.push(callbackUrl);
       } else {
-        router.push(authedUser.role === 'admin' ? '/dashboard/admin' : '/dashboard/customer');
+        router.push('/');
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Sign in failed. Please try again.');
@@ -75,7 +75,7 @@ export function SignInClient() {
     setGoogleLoading(true);
     try {
       const destination =
-        callbackUrl && callbackUrl.startsWith('/') ? `${APP_URL}${callbackUrl}` : `${APP_URL}/dashboard`;
+        callbackUrl && callbackUrl.startsWith('/') ? `${APP_URL}${callbackUrl}` : `${APP_URL}/`;
       await authClient.signIn.social({
         provider: 'google',
         callbackURL: destination,

@@ -100,6 +100,11 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   const method = (rest.method || 'GET').toUpperCase();
   const isCacheableGet = !auth && method === 'GET' && (cacheTtlMs ?? 0) > 0;
+  const isServiceMutation = method !== 'GET' && path.startsWith('/api/admin/services');
+
+  if (isServiceMutation) {
+    invalidatePublicCache();
+  }
 
   if (isCacheableGet && !forceRefresh) {
     const cached = getCachedResponse<T>(path, false);
@@ -144,6 +149,16 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
+      if (response.status === 403 && payload?.code === 'USER_BLOCKED') {
+        setAuthToken(null);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(
+            new CustomEvent('salonbook:user-blocked', {
+              detail: payload?.message || 'Your account has been blocked by the salon administrator.',
+            })
+          );
+        }
+      }
       throw new ApiError(
         payload?.message || `Request failed with status ${response.status}`,
         response.status,
@@ -156,7 +171,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
         data: payload,
         expiresAt: Date.now() + (cacheTtlMs ?? PUBLIC_CACHE_TTL_MS),
       });
-    } else if (method !== 'GET' && path.startsWith('/api/admin/services')) {
+    } else if (isServiceMutation) {
       invalidatePublicCache();
     }
 

@@ -32,7 +32,7 @@ export function SignUpClient() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.replace(user.role === 'admin' ? '/dashboard/admin' : '/dashboard/customer');
+      router.replace('/');
     }
   }, [authLoading, user, router]);
 
@@ -77,9 +77,9 @@ export function SignUpClient() {
         return;
       }
 
-      const authedUser = await refreshAuth();
+      await refreshAuth();
       toast.success('Account created! Welcome to SalonBook.');
-      router.push(authedUser?.role === 'admin' ? '/dashboard/admin' : '/dashboard/customer');
+      router.push('/');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Sign up failed. Please try again.');
     } finally {
@@ -92,7 +92,7 @@ export function SignUpClient() {
     try {
       await authClient.signIn.social({
         provider: 'google',
-        callbackURL: `${APP_URL}/dashboard`,
+        callbackURL: `${APP_URL}/`,
       });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Google authentication could not start.');
