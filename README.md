@@ -52,5 +52,5 @@ Configure these variable names in `.env.local` (never commit actual secrets):
 ## Links
 
 - **Live Website**: `<add-live-client-url-after-deployment>`
-- **Client Repository**: `<add-client-github-repo-url>`
-- **Server Repository**: `<add-server-github-repo-url>`
+- **Client Repository**: https://github.com/IshmamHussain/SalonBook-Client
+- **Server Repository**: https://github.com/IshmamHussain/SalonBook-Server
