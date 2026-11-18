@@ -1,0 +1,8 @@
+'use client';
+
+import React from 'react';
+import { ServiceForm } from '@/components/dashboard/ServiceForm';
+
+export default function AddServicePage() {
+  return <ServiceForm mode="create" />;
+}
