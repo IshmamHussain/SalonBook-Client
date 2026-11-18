@@ -10,7 +10,7 @@ import { authClient } from '@/lib/auth-client';
 import { APP_URL } from '@/lib/constants';
 
 export function SignInClient() {
-  const { user, loading: authLoading, blockedMessage, refreshAuth } = useAuth();
+  const { user, loading: authLoading, refreshAuth } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
@@ -53,7 +53,7 @@ export function SignInClient() {
 
       const authedUser = await refreshAuth();
       if (!authedUser) {
-        toast.error('Unable to activate your session. Your account may be blocked.');
+        toast.error('Unable to activate your session. Please try again.');
         setSubmitting(false);
         return;
       }
@@ -95,15 +95,6 @@ export function SignInClient() {
         <p className="mt-2 text-sm text-[#495A52]">
           Access your appointments, protected service details, or salon administration console.
         </p>
-
-        {blockedMessage && (
-          <div
-            className="mt-5 border border-rose-800/35 bg-rose-50 p-4 text-sm text-rose-900"
-            role="alert"
-          >
-            {blockedMessage}
-          </div>
-        )}
 
         <form onSubmit={handleSignIn} className="mt-7 space-y-5">
           <div>

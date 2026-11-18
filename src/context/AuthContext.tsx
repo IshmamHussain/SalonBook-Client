@@ -28,13 +28,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setBlockedMessage(null);
       return data.user;
     } catch (err) {
-      setUser(null);
       setAuthToken(null);
       if (err instanceof ApiError && err.code === 'USER_BLOCKED') {
         setBlockedMessage(err.message);
-      } else {
-        setBlockedMessage(null);
+        if (err.user) {
+          const blockedUser: UserProfile = { ...err.user, isBlocked: true };
+          setUser(blockedUser);
+          return blockedUser;
+        }
+        setUser((prev) => (prev ? { ...prev, isBlocked: true } : null));
+        return null;
       }
+      setUser(null);
+      setBlockedMessage(null);
       return null;
     } finally {
       setLoading(false);
@@ -49,7 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     function handleUserBlocked(event: Event) {
       const detail = (event as CustomEvent<string>).detail;
       setAuthToken(null);
-      setUser(null);
+      setUser((prev) => (prev ? { ...prev, isBlocked: true } : null));
       setBlockedMessage(detail || 'Your account has been blocked by the salon administrator.');
     }
     window.addEventListener('salonbook:user-blocked', handleUserBlocked);

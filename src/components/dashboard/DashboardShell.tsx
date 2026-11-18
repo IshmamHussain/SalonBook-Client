@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  Ban,
   CalendarCheck,
   CreditCard,
   Home,
@@ -54,14 +55,11 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     if (loading) return;
 
     if (!user) {
-      if (blockedMessage) toast.error(blockedMessage);
       router.replace(`/sign-in?callbackUrl=${encodeURIComponent(pathname)}`);
       return;
     }
 
     if (user.isBlocked) {
-      toast.error('Your account has been blocked by the administrator.');
-      router.replace('/sign-in');
       return;
     }
 
@@ -92,6 +90,46 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#F4EFE6]">
         <LoadingSpinner label="Verifying dashboard access..." />
+      </div>
+    );
+  }
+
+  if (user.isBlocked) {
+    return (
+      <div className="terrace-ground flex min-h-screen items-center justify-center px-4 py-16">
+        <div className="maison-card w-full max-w-lg p-10 text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center border border-rose-800/35 bg-rose-100 text-rose-900">
+            <Ban className="h-7 w-7" aria-hidden="true" />
+          </div>
+          <h1 className="mt-6 font-display text-3xl font-semibold text-[#1E3A2F]">
+            Account Blocked
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-[#495A52]">
+            {blockedMessage ||
+              'Your account has been blocked by the salon administrator. You cannot access protected dashboard features, though you may continue browsing public pages.'}
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/"
+              className="btn-emerald px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
+            >
+              Return Home
+            </Link>
+            <Link
+              href="/services"
+              className="btn-limestone px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
+            >
+              Browse Services
+            </Link>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="cursor-pointer border border-rose-800/35 bg-rose-50 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-rose-900 transition-colors hover:bg-rose-100"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

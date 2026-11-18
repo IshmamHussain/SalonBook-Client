@@ -3,6 +3,7 @@
 import {
   AlertCircle,
   ArrowLeft,
+  Ban,
   Calendar,
   CheckCircle2,
   Clock,
@@ -80,15 +81,16 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      if (blockedMessage) {
-        toast.error(blockedMessage);
-      }
       router.replace(`/sign-in?callbackUrl=${encodeURIComponent(`/services/${serviceId}`)}`);
     }
-  }, [authLoading, user, blockedMessage, router, serviceId]);
+  }, [authLoading, user, router, serviceId]);
 
   useEffect(() => {
     if (authLoading || !user) return;
+    if (user.isBlocked) {
+      setLoading(false);
+      return;
+    }
     let active = true;
 
     async function loadService() {
@@ -120,7 +122,7 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
   }, [authLoading, user, serviceId, router]);
 
   useEffect(() => {
-    if (!user || user.role === 'admin' || !service || service.status !== 'active' || !appointmentDate) {
+    if (!user || user.isBlocked || user.role === 'admin' || !service || service.status !== 'active' || !appointmentDate) {
       return;
     }
     let active = true;
@@ -192,6 +194,40 @@ export function ServiceDetailsClient({ serviceId }: { serviceId: string }) {
 
   if (authLoading || (!user && !error)) {
     return <LoadingSpinner label="Verifying salon session..." />;
+  }
+
+  if (user?.isBlocked) {
+    return (
+      <section className="terrace-ground mx-auto max-w-2xl px-4 py-20 text-center">
+        <div className="maison-card p-10">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center border border-rose-800/35 bg-rose-100 text-rose-900">
+            <Ban className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <h1 className="mt-5 font-display text-3xl font-semibold text-[#1E3A2F]">
+            Account Blocked
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-[#495A52]">
+            {blockedMessage ||
+              'Your account has been blocked by the salon administrator. You cannot view protected service details or submit appointment requests.'}
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/services"
+              className="btn-emerald inline-flex items-center gap-2 px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Back to Browse Services
+            </Link>
+            <Link
+              href="/"
+              className="btn-limestone inline-flex items-center px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em]"
+            >
+              Return Home
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   if (loading) {

@@ -3,12 +3,14 @@ import { API_URL } from './constants';
 export class ApiError extends Error {
   status: number;
   code?: string;
+  user?: import('@/types').UserProfile;
 
-  constructor(message: string, status: number, code?: string) {
+  constructor(message: string, status: number, code?: string, user?: import('@/types').UserProfile) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
     this.code = code;
+    this.user = user;
   }
 }
 
@@ -67,7 +69,12 @@ export async function fetchSessionToken() {
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
       setAuthToken(null);
-      throw new ApiError(data?.message || 'Unable to authenticate session.', res.status, data?.code);
+      throw new ApiError(
+        data?.message || 'Unable to authenticate session.',
+        res.status,
+        data?.code,
+        data?.user
+      );
     }
 
     setAuthToken(data.token);
