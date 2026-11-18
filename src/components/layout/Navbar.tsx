@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown, LayoutDashboard, LogOut, Menu, User, X } from 'lucide-react';
+import { ChevronDown, LayoutDashboard, LogOut, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
@@ -57,11 +57,6 @@ export function Navbar() {
           <Link href="/services" className={navLinkClass(pathname.startsWith('/services'))}>
             Browse Services
           </Link>
-          {user && (
-            <Link href={dashboardHref} className={navLinkClass(pathname.startsWith('/dashboard'))}>
-              Dashboard
-            </Link>
-          )}
         </nav>
 
         {/* Centered Engraved Maison Wordmark */}
@@ -115,13 +110,10 @@ export function Navbar() {
               {dropdownOpen && (
                 <div
                   role="menu"
-                  className="maison-card absolute right-0 mt-2 w-60 p-2 shadow-xl"
+                  className="maison-card absolute right-0 mt-2 w-56 p-2 shadow-xl"
                 >
                   <div className="border-b border-[#E2D9C8] px-3 py-2.5">
                     <p className="truncate text-sm font-semibold text-[#16261F]">{user.name}</p>
-                    <p className="truncate font-mono text-[11px] uppercase tracking-[0.12em] text-[#B5893D]">
-                      {user.role}
-                    </p>
                   </div>
                   <Link
                     href={dashboardHref}
@@ -130,14 +122,6 @@ export function Navbar() {
                   >
                     <LayoutDashboard className="h-4 w-4 text-[#1E3A2F]" aria-hidden="true" />
                     Dashboard
-                  </Link>
-                  <Link
-                    href={`${dashboardHref}/profile`}
-                    role="menuitem"
-                    className="flex items-center gap-2.5 px-3 py-2 text-sm text-[#16261F] transition-colors hover:bg-[#F4EFE6]"
-                  >
-                    <User className="h-4 w-4 text-[#1E3A2F]" aria-hidden="true" />
-                    My Profile
                   </Link>
                   <button
                     type="button"
@@ -197,11 +181,11 @@ export function Navbar() {
             </Link>
             {user ? (
               <>
-                <Link href={dashboardHref} className="py-2 text-sm font-semibold text-[#B5893D]">
-                  Dashboard ({user.name})
-                </Link>
-                <Link href={`${dashboardHref}/profile`} className="py-2 text-sm text-[#495A52]">
-                  My Profile
+                <p className="border-t border-[#E2D9C8] pt-3 text-sm font-semibold text-[#16261F]">
+                  {user.name}
+                </p>
+                <Link href={dashboardHref} className="py-1.5 text-sm font-semibold text-[#B5893D]">
+                  Dashboard
                 </Link>
                 <button
                   type="button"

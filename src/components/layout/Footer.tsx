@@ -1,9 +1,15 @@
-import { Clock, Mail, MapPin, Phone } from 'lucide-react';
+'use client';
+
+import { ArrowUp, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { SALON_INFO } from '@/lib/constants';
 
 export function Footer() {
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   return (
     <footer className="border-t-2 border-[#B5893D] bg-[#1E3A2F] text-[#E6DFD2]">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -74,9 +80,14 @@ export function Footer() {
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>
-                <Link href="/" className="transition-colors hover:text-[#E8CF9C]">
-                  Home Terrace
-                </Link>
+                <button
+                  type="button"
+                  onClick={scrollToTop}
+                  className="inline-flex cursor-pointer items-center gap-1.5 transition-colors hover:text-[#E8CF9C]"
+                >
+                  <ArrowUp className="h-3.5 w-3.5 text-[#D6BC88]" aria-hidden="true" />
+                  Back to Top
+                </button>
               </li>
               <li>
                 <Link href="/services" className="transition-colors hover:text-[#E8CF9C]">
@@ -141,8 +152,8 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#B5893D]/30 pt-6 text-xs text-[#C7BFB0] sm:flex-row">
           <p>&copy; {new Date().getFullYear()} SalonBook Maison. All rights reserved.</p>
-          <p className="font-mono uppercase tracking-[0.14em] text-[#D6BC88]">
-            Stripe-Verified Payments · Conflict-Free Scheduling
+          <p className="font-mono italic uppercase tracking-[0.14em] text-[#D6BC88]">
+            Crafted Care · Timeless Calm
           </p>
         </div>
       </div>
