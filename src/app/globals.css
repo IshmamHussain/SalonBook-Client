@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-void: #0B0F14;
+  --color-ink: #121922;
+  --color-panel: #18222E;
+  --color-panel-hover: #1E2B3A;
+  --color-mist: #8DB4D4;
+  --color-slate-sheen: #2A4359;
+  --color-copper: #E08A5E;
+  --color-copper-bright: #F0A076;
+  --color-foreground: #F4F6F8;
+  --color-muted: #B4C2CF;
+  --color-subtle: #7F92A4;
+  --color-line: rgba(244, 246, 248, 0.13);
+  --color-line-strong: rgba(244, 246, 248, 0.24);
+
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+  --bg-void: #0B0F14;
+  --bg-ink: #121922;
+  --bg-panel: #18222E;
+  --fg-primary: #F4F6F8;
+  --fg-secondary: #B4C2CF;
+  --accent-copper: #E08A5E;
+  --accent-mist: #8DB4D4;
+  --border-hairline: rgba(244, 246, 248, 0.13);
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-void);
+  color: var(--fg-primary);
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Browser surface theming */
+::selection {
+  background-color: rgba(224, 138, 94, 0.34);
+  color: #F4F6F8;
+}
+
+input,
+textarea,
+select {
+  caret-color: #E08A5E;
+}
+
+a {
+  text-underline-offset: 4px;
+}
+
+:focus-visible {
+  outline: 2px solid #E08A5E;
+  outline-offset: 2px;
+}
+
+/* Custom studio scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0F14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #233242;
+  border-radius: 999px;
+  border: 2px solid #0B0F14;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E08A5E;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fine optical film grain texture overlay */
+.portal-grain {
+  background-image: radial-gradient(rgba(244, 246, 248, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Subtle sheen panel surface */
+.atelier-surface {
+  background: linear-gradient(180deg, rgba(24, 34, 46, 0.72) 0%, rgba(18, 25, 34, 0.92) 100%);
+  border: 1px solid rgba(244, 246, 248, 0.13);
+}
+
+.atelier-surface-hover {
+  transition: border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+}
+
+.atelier-surface-hover:hover {
+  border-color: rgba(224, 138, 94, 0.58);
+  box-shadow: 0 20px 44px -24px rgba(0, 0, 0, 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
