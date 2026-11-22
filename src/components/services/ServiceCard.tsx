@@ -5,7 +5,14 @@ import Link from 'next/link';
 import React from 'react';
 import type { SalonService } from '@/types';
 
+function isMenService(service: { serviceName: string; description: string }): boolean {
+  const text = `${service.serviceName} ${service.description}`.toLowerCase();
+  return /\b(men'?s|gentlem[ae]n'?s?|barber|beard|male)\b/i.test(text);
+}
+
 export function ServiceCard({ service }: { service: SalonService }) {
+  const isMen = isMenService(service);
+
   return (
     <article className="maison-card maison-card-hover group flex h-full flex-col overflow-hidden p-3">
       <div className="relative h-60 w-full overflow-hidden border border-[#E2D9C8] bg-[#EAE2D3]">
@@ -23,6 +30,15 @@ export function ServiceCard({ service }: { service: SalonService }) {
         )}
         <span className="absolute left-3 top-3 border border-[#B5893D]/60 bg-[#FBF9F5]/92 px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-[#1E3A2F] backdrop-blur-xs">
           {service.category}
+        </span>
+        <span
+          className={`absolute right-3 top-3 border px-2.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] backdrop-blur-xs ${
+            isMen
+              ? 'border-[#B5893D] bg-[#1E3A2F] text-[#E8CF9C]'
+              : 'border-[#C9BFA9] bg-[#FBF9F5]/92 text-[#7A5B1E]'
+          }`}
+        >
+          {isMen ? 'Gentlemen' : 'Maison'}
         </span>
       </div>
 

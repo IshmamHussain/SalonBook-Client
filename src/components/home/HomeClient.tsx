@@ -20,19 +20,44 @@ import { apiRequest, getCachedResponse } from '@/lib/api';
 import { CATEGORY_DESCRIPTIONS, SALON_INFO, SERVICE_CATEGORIES } from '@/lib/constants';
 import type { CategorySummary, SalonService } from '@/types';
 
-const HOME_SERVICES_PATH = '/api/services?limit=6';
+const HOME_SERVICES_PATH = '/api/services?limit=30';
 const HOME_CATEGORIES_PATH = '/api/services/categories';
+
+export function isMenService(service: SalonService): boolean {
+  const text = `${service.serviceName} ${service.description}`.toLowerCase();
+  return /\b(men'?s|gentlem[ae]n'?s?|barber|beard|male)\b/i.test(text);
+}
+
+export function selectBalancedFeatured(services: SalonService[]): SalonService[] {
+  const womenList = services.filter((s) => !isMenService(s));
+  const menList = services.filter((s) => isMenService(s));
+
+  // Exactly 3 from women side, 3 from men side
+  const pickedWomen = womenList.slice(0, 3);
+  const pickedMen = menList.slice(0, 3);
+
+  const combined = [...pickedWomen, ...pickedMen];
+  if (combined.length < 6) {
+    const remaining = services.filter((s) => !combined.some((c) => c.id === s.id));
+    combined.push(...remaining.slice(0, 6 - combined.length));
+  }
+  return combined.slice(0, 6);
+}
 
 export function HomeClient() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const initialServices =
+  const [heroHoverSide, setHeroHoverSide] = useState<'women' | 'men' | null>(null);
+
+  const rawCached =
     getCachedResponse<{ success: boolean; services: SalonService[] }>(HOME_SERVICES_PATH)
       ?.services ?? null;
+  const initialServices = rawCached ? selectBalancedFeatured(rawCached) : null;
   const initialCategories =
     getCachedResponse<{ success: boolean; categories: CategorySummary[] }>(HOME_CATEGORIES_PATH)
       ?.categories ?? null;
 
+  const [allServices, setAllServices] = useState<SalonService[]>(() => rawCached ?? []);
   const [featuredServices, setFeaturedServices] = useState<SalonService[]>(
     () => initialServices ?? []
   );
@@ -62,7 +87,9 @@ export function HomeClient() {
           }),
         ]);
         if (!active) return;
-        setFeaturedServices(servicesRes.services || []);
+        const fetched = servicesRes.services || [];
+        setAllServices(fetched);
+        setFeaturedServices(selectBalancedFeatured(fetched));
         if (categoriesRes.categories?.length) {
           setCategories(categoriesRes.categories);
         }
@@ -95,8 +122,35 @@ export function HomeClient() {
     }
   }
 
-  const hairWingItems = featuredServices.filter((s) => s.category.startsWith('Hair')).slice(0, 3);
-  const spaWingItems = featuredServices.filter((s) => !s.category.startsWith('Hair')).slice(0, 3);
+  function handleHeroMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    // Diagonal division from (0.75 * width, 0) to (0.25 * width, height)
+    const splitX = 0.75 * rect.width - 0.5 * rect.width * (y / rect.height);
+    if (x < splitX) {
+      setHeroHoverSide('women');
+    } else {
+      setHeroHoverSide('men');
+    }
+  }
+
+  function handleHeroMouseLeave() {
+    setHeroHoverSide(null);
+  }
+
+  function handleHeroClick(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const splitX = 0.75 * rect.width - 0.5 * rect.width * (y / rect.height);
+    const target = x < splitX ? 'women' : 'men';
+    setHeroHoverSide((prev) => (prev === target ? null : target));
+  }
+
+  const wingPool = allServices.length > 0 ? allServices : featuredServices;
+  const hairWingItems = wingPool.filter((s) => s.category.startsWith('Hair')).slice(0, 3);
+  const spaWingItems = wingPool.filter((s) => !s.category.startsWith('Hair')).slice(0, 3);
 
   return (
     <div className="terrace-ground">
@@ -153,22 +207,127 @@ export function HomeClient() {
               Maison of Calm &amp; Craft.
             </h1>
 
-            {/* Gilt-Framed Arched Salon Vista */}
+            {/* Gilt-Framed Arched Salon Vista: Interactive Diagonal Split */}
             <div className="my-7 w-full max-w-[420px] rounded-t-[210px] border-2 border-[#B5893D] bg-[#FBF9F5] p-2.5 shadow-[0_24px_50px_-24px_rgba(22,38,31,0.35)]">
-              <div className="relative h-[320px] w-full overflow-hidden rounded-t-[200px] sm:h-[380px]">
-                <img
-                  src="/hero-salon.jpg"
-                  alt="Master hair stylist finishing glossy sculpted waves in the sunlit SalonBook salon"
-                  className="h-full w-full object-cover object-top"
-                />
+              <div
+                className="relative h-[320px] w-full cursor-pointer select-none overflow-hidden rounded-t-[200px] sm:h-[380px]"
+                onMouseMove={handleHeroMouseMove}
+                onMouseLeave={handleHeroMouseLeave}
+                onClick={handleHeroClick}
+                role="region"
+                aria-label="Interactive salon atelier showcase: hover left for Women's Atelier, right for Gentlemen's Parlour"
+              >
+                {/* Layer 1: Women's Atelier Image */}
                 <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0"
+                  className="absolute inset-0 will-change-[clip-path,transform]"
                   style={{
-                    background:
-                      'linear-gradient(180deg, rgba(30,58,47,0.04) 55%, rgba(22,38,31,0.45) 100%)',
+                    clipPath:
+                      heroHoverSide === 'women'
+                        ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+                        : heroHoverSide === 'men'
+                        ? 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
+                        : 'polygon(0% 0%, 75% 0%, 25% 100%, 0% 100%)',
+                    transition:
+                      'clip-path 650ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1), filter 650ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    transform: heroHoverSide === 'women' ? 'scale(1.05)' : 'scale(1)',
+                    filter: heroHoverSide === 'men' ? 'brightness(0.75)' : 'brightness(1)',
                   }}
-                />
+                >
+                  <img
+                    src="/hero-salon.jpg"
+                    alt="Women's salon styling sculpted waves"
+                    className="h-full w-full object-cover object-top"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background:
+                        'linear-gradient(180deg, rgba(30,58,47,0.04) 50%, rgba(22,38,31,0.48) 100%)',
+                    }}
+                  />
+                </div>
+
+                {/* Layer 2: Gentlemen's Parlour Image */}
+                <div
+                  className="absolute inset-0 will-change-[clip-path,transform]"
+                  style={{
+                    clipPath:
+                      heroHoverSide === 'men'
+                        ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+                        : heroHoverSide === 'women'
+                        ? 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)'
+                        : 'polygon(75% 0%, 100% 0%, 100% 100%, 25% 100%)',
+                    transition:
+                      'clip-path 650ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1), filter 650ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    transform: heroHoverSide === 'men' ? 'scale(1.05)' : 'scale(1)',
+                    filter: heroHoverSide === 'women' ? 'brightness(0.75)' : 'brightness(1)',
+                  }}
+                >
+                  <img
+                    src="/hero-salon-men.jpg"
+                    alt="Gentlemen's master barber styling"
+                    className="h-full w-full object-cover object-center"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background:
+                        'linear-gradient(180deg, rgba(30,58,47,0.04) 50%, rgba(22,38,31,0.52) 100%)',
+                    }}
+                  />
+                </div>
+
+                {/* Diagonal Golden Seam Divider Line */}
+                <svg
+                  className="pointer-events-none absolute inset-0 h-full w-full transition-opacity duration-500"
+                  style={{ opacity: heroHoverSide ? 0 : 1 }}
+                  aria-hidden="true"
+                >
+                  <line
+                    x1="75%"
+                    y1="0%"
+                    x2="25%"
+                    y2="100%"
+                    stroke="#B5893D"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+
+                {/* Center Crest (resting state) */}
+                <div
+                  className={`pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#B5893D] bg-[#1E3A2F]/92 px-3 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-[#E8CF9C] shadow-lg backdrop-blur-md transition-all duration-500 ${
+                    heroHoverSide ? 'scale-75 opacity-0' : 'scale-100 opacity-100'
+                  }`}
+                >
+                  Dual Atelier
+                </div>
+
+                {/* Bottom Left Badge: Women's Atelier */}
+                <div
+                  className={`absolute bottom-3 left-3 z-20 transition-all duration-300 ${
+                    heroHoverSide === 'men' ? 'pointer-events-none opacity-25' : 'opacity-100'
+                  }`}
+                  onMouseEnter={() => setHeroHoverSide('women')}
+                >
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#B5893D]/80 bg-[#16261F]/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FBF9F5] shadow-md backdrop-blur-xs">
+                    Women
+                  </span>
+                </div>
+
+                {/* Bottom Right Badge: Gentlemen's Parlour */}
+                <div
+                  className={`absolute bottom-3 right-3 z-20 transition-all duration-300 ${
+                    heroHoverSide === 'women' ? 'pointer-events-none opacity-25' : 'opacity-100'
+                  }`}
+                  onMouseEnter={() => setHeroHoverSide('men')}
+                >
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#B5893D]/80 bg-[#16261F]/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FBF9F5] shadow-md backdrop-blur-xs">
+                    Men
+                  </span>
+                </div>
               </div>
             </div>
 
