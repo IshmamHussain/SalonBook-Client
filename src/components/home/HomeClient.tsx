@@ -126,8 +126,8 @@ export function HomeClient() {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    // Diagonal division from (0.75 * width, 0) to (0.25 * width, height)
-    const splitX = 0.75 * rect.width - 0.5 * rect.width * (y / rect.height);
+    // Balanced diagonal division from (0.58 * width, 0) to (0.42 * width, height)
+    const splitX = 0.58 * rect.width - 0.16 * rect.width * (y / rect.height);
     if (x < splitX) {
       setHeroHoverSide('women');
     } else {
@@ -143,7 +143,7 @@ export function HomeClient() {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const splitX = 0.75 * rect.width - 0.5 * rect.width * (y / rect.height);
+    const splitX = 0.58 * rect.width - 0.16 * rect.width * (y / rect.height);
     const target = x < splitX ? 'women' : 'men';
     setHeroHoverSide((prev) => (prev === target ? null : target));
   }
@@ -226,7 +226,7 @@ export function HomeClient() {
                         ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
                         : heroHoverSide === 'men'
                         ? 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
-                        : 'polygon(0% 0%, 75% 0%, 25% 100%, 0% 100%)',
+                        : 'polygon(0% 0%, 58% 0%, 42% 100%, 0% 100%)',
                     transition:
                       'clip-path 650ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1), filter 650ms cubic-bezier(0.16, 1, 0.3, 1)',
                     transform: heroHoverSide === 'women' ? 'scale(1.05)' : 'scale(1)',
@@ -234,16 +234,16 @@ export function HomeClient() {
                   }}
                 >
                   <img
-                    src="/hero-salon-women.jpg"
-                    alt="Women's salon atelier hair styling"
-                    className="h-full w-full object-cover object-[35%_25%]"
+                    src="/hero-salon.jpg"
+                    alt="Women's salon styling sculpted waves with master stylist"
+                    className="h-full w-full object-cover object-[48%_20%]"
                   />
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0"
                     style={{
                       background:
-                        'linear-gradient(180deg, rgba(30,58,47,0.02) 50%, rgba(22,38,31,0.40) 100%)',
+                        'linear-gradient(180deg, rgba(30,58,47,0.02) 50%, rgba(22,38,31,0.38) 100%)',
                     }}
                   />
                 </div>
@@ -257,7 +257,7 @@ export function HomeClient() {
                         ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
                         : heroHoverSide === 'women'
                         ? 'polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)'
-                        : 'polygon(75% 0%, 100% 0%, 100% 100%, 25% 100%)',
+                        : 'polygon(58% 0%, 100% 0%, 100% 100%, 42% 100%)',
                     transition:
                       'clip-path 650ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1), filter 650ms cubic-bezier(0.16, 1, 0.3, 1)',
                     transform: heroHoverSide === 'men' ? 'scale(1.05)' : 'scale(1)',
@@ -266,15 +266,15 @@ export function HomeClient() {
                 >
                   <img
                     src="/hero-salon-men.jpg"
-                    alt="Gentlemen's master barber grooming"
-                    className="h-full w-full object-cover object-[68%_25%]"
+                    alt="Gentlemen's master barber precision haircut and styling"
+                    className="h-full w-full object-cover object-[68%_20%]"
                   />
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0"
                     style={{
                       background:
-                        'linear-gradient(180deg, rgba(30,58,47,0.02) 50%, rgba(22,38,31,0.42) 100%)',
+                        'linear-gradient(180deg, rgba(30,58,47,0.02) 50%, rgba(22,38,31,0.40) 100%)',
                     }}
                   />
                 </div>
@@ -286,12 +286,12 @@ export function HomeClient() {
                   aria-hidden="true"
                 >
                   <line
-                    x1="75%"
+                    x1="58%"
                     y1="0%"
-                    x2="25%"
+                    x2="42%"
                     y2="100%"
                     stroke="#B5893D"
-                    strokeWidth="2.5"
+                    strokeWidth="2"
                     strokeLinecap="round"
                   />
                 </svg>
