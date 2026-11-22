@@ -38,7 +38,7 @@ export function ServiceCard({ service }: { service: SalonService }) {
               : 'border-[#C9BFA9] bg-[#FBF9F5]/92 text-[#7A5B1E]'
           }`}
         >
-          {isMen ? 'Gentlemen' : 'Maison'}
+          {isMen ? 'Gentlemen' : 'Women'}
         </span>
       </div>
 

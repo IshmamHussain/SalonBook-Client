@@ -234,16 +234,16 @@ export function HomeClient() {
                   }}
                 >
                   <img
-                    src="/hero-salon.jpg"
-                    alt="Women's salon styling sculpted waves"
-                    className="h-full w-full object-cover object-top"
+                    src="/hero-salon-women.jpg"
+                    alt="Women's salon atelier hair styling"
+                    className="h-full w-full object-cover object-[35%_25%]"
                   />
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0"
                     style={{
                       background:
-                        'linear-gradient(180deg, rgba(30,58,47,0.04) 50%, rgba(22,38,31,0.48) 100%)',
+                        'linear-gradient(180deg, rgba(30,58,47,0.02) 50%, rgba(22,38,31,0.40) 100%)',
                     }}
                   />
                 </div>
@@ -266,15 +266,15 @@ export function HomeClient() {
                 >
                   <img
                     src="/hero-salon-men.jpg"
-                    alt="Gentlemen's master barber styling"
-                    className="h-full w-full object-cover object-center"
+                    alt="Gentlemen's master barber grooming"
+                    className="h-full w-full object-cover object-[68%_25%]"
                   />
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0"
                     style={{
                       background:
-                        'linear-gradient(180deg, rgba(30,58,47,0.04) 50%, rgba(22,38,31,0.52) 100%)',
+                        'linear-gradient(180deg, rgba(30,58,47,0.02) 50%, rgba(22,38,31,0.42) 100%)',
                     }}
                   />
                 </div>
@@ -295,39 +295,6 @@ export function HomeClient() {
                     strokeLinecap="round"
                   />
                 </svg>
-
-                {/* Center Crest (resting state) */}
-                <div
-                  className={`pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#B5893D] bg-[#1E3A2F]/92 px-3 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-[#E8CF9C] shadow-lg backdrop-blur-md transition-all duration-500 ${
-                    heroHoverSide ? 'scale-75 opacity-0' : 'scale-100 opacity-100'
-                  }`}
-                >
-                  Dual Atelier
-                </div>
-
-                {/* Bottom Left Badge: Women's Atelier */}
-                <div
-                  className={`absolute bottom-3 left-3 z-20 transition-all duration-300 ${
-                    heroHoverSide === 'men' ? 'pointer-events-none opacity-25' : 'opacity-100'
-                  }`}
-                  onMouseEnter={() => setHeroHoverSide('women')}
-                >
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#B5893D]/80 bg-[#16261F]/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FBF9F5] shadow-md backdrop-blur-xs">
-                    Women
-                  </span>
-                </div>
-
-                {/* Bottom Right Badge: Gentlemen's Parlour */}
-                <div
-                  className={`absolute bottom-3 right-3 z-20 transition-all duration-300 ${
-                    heroHoverSide === 'women' ? 'pointer-events-none opacity-25' : 'opacity-100'
-                  }`}
-                  onMouseEnter={() => setHeroHoverSide('men')}
-                >
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#B5893D]/80 bg-[#16261F]/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FBF9F5] shadow-md backdrop-blur-xs">
-                    Men
-                  </span>
-                </div>
               </div>
             </div>
 
