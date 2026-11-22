@@ -236,7 +236,7 @@ export function HomeClient() {
                   <img
                     src="/hero-salon.jpg"
                     alt="Women's salon styling sculpted waves with master stylist"
-                    className="h-full w-full object-cover object-[48%_20%]"
+                    className="h-full w-full object-cover object-[38%_25%]"
                   />
                   <div
                     aria-hidden="true"
@@ -267,7 +267,7 @@ export function HomeClient() {
                   <img
                     src="/hero-salon-men.jpg"
                     alt="Gentlemen's master barber precision haircut and styling"
-                    className="h-full w-full object-cover object-[68%_20%]"
+                    className="h-full w-full object-cover object-[68%_25%]"
                   />
                   <div
                     aria-hidden="true"
