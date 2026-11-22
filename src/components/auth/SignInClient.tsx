@@ -21,6 +21,30 @@ export function SignInClient() {
   const [submitting, setSubmitting] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  // Reset loading spinner if user navigates back from Google or tab regains focus
+  useEffect(() => {
+    function resetLoaders() {
+      setGoogleLoading(false);
+      setSubmitting(false);
+    }
+
+    window.addEventListener('pageshow', resetLoaders);
+    window.addEventListener('focus', resetLoaders);
+
+    function handleVisibility() {
+      if (document.visibilityState === 'visible') {
+        resetLoaders();
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      window.removeEventListener('pageshow', resetLoaders);
+      window.removeEventListener('focus', resetLoaders);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
   useEffect(() => {
     if (!authLoading && user) {
       if (callbackUrl && callbackUrl.startsWith('/')) {
@@ -73,6 +97,10 @@ export function SignInClient() {
 
   async function handleGoogleLogin() {
     setGoogleLoading(true);
+    const safetyTimer = setTimeout(() => {
+      setGoogleLoading(false);
+    }, 4000);
+
     try {
       const destination =
         callbackUrl && callbackUrl.startsWith('/') ? `${APP_URL}${callbackUrl}` : `${APP_URL}/`;
@@ -81,6 +109,7 @@ export function SignInClient() {
         callbackURL: destination,
       });
     } catch (err) {
+      clearTimeout(safetyTimer);
       toast.error(err instanceof Error ? err.message : 'Google sign-in could not be started.');
       setGoogleLoading(false);
     }

@@ -25,6 +25,30 @@ export function SignUpClient() {
   const [submitting, setSubmitting] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  // Reset loading spinner if user navigates back from Google or tab regains focus
+  useEffect(() => {
+    function resetLoaders() {
+      setGoogleLoading(false);
+      setSubmitting(false);
+    }
+
+    window.addEventListener('pageshow', resetLoaders);
+    window.addEventListener('focus', resetLoaders);
+
+    function handleVisibility() {
+      if (document.visibilityState === 'visible') {
+        resetLoaders();
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      window.removeEventListener('pageshow', resetLoaders);
+      window.removeEventListener('focus', resetLoaders);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
   const hasMinLen = password.length >= 6;
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
@@ -89,12 +113,17 @@ export function SignUpClient() {
 
   async function handleGoogleSignUp() {
     setGoogleLoading(true);
+    const safetyTimer = setTimeout(() => {
+      setGoogleLoading(false);
+    }, 4000);
+
     try {
       await authClient.signIn.social({
         provider: 'google',
         callbackURL: `${APP_URL}/`,
       });
     } catch (err) {
+      clearTimeout(safetyTimer);
       toast.error(err instanceof Error ? err.message : 'Google authentication could not start.');
       setGoogleLoading(false);
     }
