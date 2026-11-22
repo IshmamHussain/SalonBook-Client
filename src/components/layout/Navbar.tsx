@@ -55,11 +55,6 @@ export function Navbar() {
           <Link href="/services" className={navLinkClass(pathname.startsWith('/services'))}>
             Browse Services
           </Link>
-          {user && (
-            <Link href={dashboardHref} className={navLinkClass(pathname.startsWith('/dashboard'))}>
-              Dashboard
-            </Link>
-          )}
         </nav>
 
         {/* Centered Engraved Maison Wordmark */}
