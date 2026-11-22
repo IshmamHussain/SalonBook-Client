@@ -49,14 +49,17 @@ export function Navbar() {
       <div className="mx-auto grid h-20 max-w-[1440px] grid-cols-2 items-center px-4 sm:px-6 md:grid-cols-3 lg:px-10">
         {/* Left Navigation */}
         <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
-          {!user && (
-            <Link href="/" className={navLinkClass(pathname === '/')}>
-              Home
-            </Link>
-          )}
+          <Link href="/" className={navLinkClass(pathname === '/')}>
+            Home
+          </Link>
           <Link href="/services" className={navLinkClass(pathname.startsWith('/services'))}>
             Browse Services
           </Link>
+          {user && (
+            <Link href={dashboardHref} className={navLinkClass(pathname.startsWith('/dashboard'))}>
+              Dashboard
+            </Link>
+          )}
         </nav>
 
         {/* Centered Engraved Maison Wordmark */}
@@ -171,11 +174,9 @@ export function Navbar() {
       {mobileOpen && (
         <div className="border-t border-[#D5C9B4] bg-[#FBF9F5] px-5 py-5 md:hidden">
           <div className="flex flex-col gap-3">
-            {!user && (
-              <Link href="/" className="py-2 text-sm font-semibold text-[#1E3A2F]">
-                Home
-              </Link>
-            )}
+            <Link href="/" className="py-2 text-sm font-semibold text-[#1E3A2F]">
+              Home
+            </Link>
             <Link href="/services" className="py-2 text-sm font-semibold text-[#1E3A2F]">
               Browse Services
             </Link>
